@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+{%  load staticfiles  %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Automated Phishing Mailer</title>
+    <meta name="description" content="Free Bootstrap Theme by BootstrapMade.com">
+    <meta name="keywords" content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
+    
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Candal|Alegreya+Sans">
+    <link rel="stylesheet" type="text/css" href="{%  static 'services/css/font-awesome.min.css'  %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'services/css/bootstrap.min.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{% static 'services/css/imagehover.min.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{%  static 'services/css/style.css'  %} ">
+    <!-- =======================================================
+        Theme Name: Mentor
+        Theme URL: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/
+        Author: Palesa Antony
+        Author URL: https://www.csirapm.co.za
+    ======================================================= -->
+  </head>
+  <body>
+    <!--Navigation bar-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">CS<span>IR</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#feature">Features</a></li>
+          <li><a href="#organisations">Organisations</a></li>
+          <li><a href="#courses">Trainings</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#" data-target="#login" data-toggle="modal">Sign in</a></li>
+
+        </ul>
+        </div>
+      </div>
+    </nav>
+    <!--/ Navigation bar-->
+    <!--Modal box-->
+    <div class="modal fade" id="login" role="dialog">
+      <div class="modal-dialog modal-sm">
+      
+        <!-- Modal content no 1-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-center form-title">Login</h4>
+          </div>
+          <div class="modal-body padtrbl">
+
+            <div class="login-box-body">
+              <p class="login-box-msg">Sign in to start your session</p>
+              <div class="form-group">
+                <form action="/login/auth/" method="post" enctype="multipart/form-data" name="loginForm" id="loginForm">{% csrf_token %}
+                 <div class="form-group has-feedback"> <!----- username -------------->
+                      <input class="form-control" name="username" placeholder="Username"  id="loginid" type="text" autocomplete="off" />
+            <span style="display:none;font-weight:bold; position:absolute;color: red;position: absolute;padding:4px;font-size: 11px;background-color:rgba(128, 128, 128, 0.26);z-index: 17;  right: 27px; top: 5px;" id="span_loginid"></span><!---Alredy exists  ! -->
+                      <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                  </div>
+                  <div class="form-group has-feedback"><!----- password -------------->
+                      <input class="form-control" name="password" placeholder="Password" id="loginpsw" type="password" autocomplete="off" />
+            <span style="display:none;font-weight:bold; position:absolute;color: grey;position: absolute;padding:4px;font-size: 11px;background-color:rgba(128, 128, 128, 0.26);z-index: 17;  right: 27px; top: 5px;" id="span_loginpsw"></span><!---Alredy exists  ! -->
+                      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                  </div>
+                  <div class="row">
+                      <div class="col-xs-12">
+                          <div class="checkbox icheck">
+                              <label>
+                                <input type="checkbox" id="loginrem" > Remember Me
+                              </label>
+                          </div>
+                      </div>
+                      <div class="col-xs-12">
+                        <input type="submit" name="submit" value="Sign In" class="btn btn-green btn-block btn-flat" onclick="userlogin()">
+                        <!--button type="button" class="btn btn-green btn-block btn-flat" onclick="userlogin()">Sign In</button-->
+                      </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!--Contact-->
+    <section id ="contact" class="section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="header-section text-center">
+            <h2>Register</h2>
+            <p>To register for GonePhishing Phishing Services complete the Registration form below,<br> already have an account?click <a href="/index/">login</a> to sign in .</p>
+            <hr class="bottom-line">
+          </div>
+          <div id="sendmessage">Your message has been sent. Thank you!</div>
+          <div id="errormessage"></div>
+          <form action="/registered/" enctype="multipart/form-data" method="post" role="form" class="contactForm">{% csrf_token %}
+              <div class="col-md-6 col-sm-6 col-xs-12 centre">
+                <div class="form-group">
+                 <label>
+                User Name<span class="req">*</span>
+              </label>
+                    <input type="text" name="username" class="form-control form" id="username" placeholder="Your User Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                      <label>
+                First Name<span class="req">*</span>
+              </label>
+                    <input type="text" name="firstname" class="form-control form" id="firstname" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                      <label>
+                Last Name<span class="req">*</span>
+              </label>
+                    <input type="text" name="surname" class="form-control form" id="surname" placeholder="Your Last Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                              <div class="field-wrap">
+            <label>Email Address<span class="req">*</span></label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" autocomplete="off"/>
+                    <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                      <label>Set A Password<span class="req">*</span></label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Subject" data-rule="minlen:4" autocomplete="off" data-msg="Please enter at least 8 chars of subject" />
+                    <div class="validation"></div>
+                </div>
+
+                <div class="form-group">
+                      <label>Confirm Password</label>
+                    <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Re Enter Password" data-rule="email" data-msg="Please enter a valid email" />
+                    <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                      <label> Organization<span class="req">*</span></label>
+                    <input type="text" class="form-control" name="organization" id="organization" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                    <div class="validation"></div>
+                </div>
+                 <div class="form-group">
+                      <label> Membership Type<span class="req">*</span></label><br>
+                        <input type="radio" name="membership" value="bronze" autocomplete="off"/><label>Bronze</label><br>
+                        <input type="radio" name="membership" value="silver" required autocomplete="off"/><label>Silver</label><br>
+                        <input type="radio" name="membership" value="gold" required autocomplete="off" /><label>Gold</label><br>
+                    <!--input type="text" class="form-control" name="organization" id="organization" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" -->
+                    <div class="validation"></div>
+                </div>
+              </div>
+
+
+                <div class="col-xs-12">
+                 <!-- Button -->
+                <button type="submit" id="submit" name="submit" class="form contact-form-button light-form-button oswald light">REGISTER</button>
+                    <!--button type="submit" id="submit" name="submit" class="form contact-form-button light-form-button oswald light">REGISTER</button-->
+                </div>
+              </div>
+          </form>
+          
+        </div>
+      </div>
+    </section>
+    <!--/ Contact-->
+    <!--Footer-->
+    <footer id="footer" class="footer">
+      <div class="container text-center">
+    
+      <h3>Start Your Free Trial Now!</h3>
+    
+      <form class="mc-trial row">
+        <div class="form-group col-md-3 col-md-offset-2 col-sm-4">
+          <div class=" controls">
+            <input name="name" placeholder="Enter Your Name" class="form-control" type="text">
+          </div>
+        </div><!-- End email input -->
+        <div class="form-group col-md-3 col-sm-4">
+          <div class=" controls">
+            <input name="EMAIL" placeholder="Enter Your email" class="form-control" type="email">
+          </div>
+        </div><!-- End email input -->
+        <div class="col-md-2 col-sm-4">
+          <p>
+            <button name="submit" type="submit" class="btn btn-block btn-submit">
+            Submit <i class="fa fa-arrow-right"></i></button>
+          </p>
+        </div>
+      </form><!-- End newsletter-form -->
+      <ul class="social-links">
+        <li><a href="#link"><i class="fa fa-twitter fa-fw"></i></a></li>
+        <li><a href="#link"><i class="fa fa-facebook fa-fw"></i></a></li>
+        <li><a href="#link"><i class="fa fa-google-plus fa-fw"></i></a></li>
+        <li><a href="#link"><i class="fa fa-dribbble fa-fw"></i></a></li>
+        <li><a href="#link"><i class="fa fa-linkedin fa-fw"></i></a></li>
+      </ul>
+        ©2016 Mentor Theme. All rights reserved
+        <div class="credits">
+            <!-- 
+                All the links in the footer should remain intact. 
+                You can delete the links only if you purchased the pro version.
+                Licensing information: https://bootstrapmade.com/license/
+                Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Mentor
+            -->
+            Designed by <a href="https://bootstrapmade.com/">Free Bootstrap Themes</a>
+        </div>
+      </div>
+    </footer>
+    <!--/ Footer-->
+    
+    <script src="{%  static 'services/js/jquery.min.js'  %}"></script>
+    <script src="{%  static 'services/js/jquery.easing.min.js'  %}"></script>
+    <script src="{%  static 'services/js/bootstrap.min.js'  %}"></script>
+    <script src="{%  static 'services/js/custom.js'  %}"></script>
+    <script src="{%  static 'services/contactform/contactform.js'  %}"></script>
+    
+  </body>
+</html>
