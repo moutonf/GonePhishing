@@ -21,8 +21,9 @@ class victims(models.Model):
     date_of_attack=models.CharField(max_length=100)
     date_of_compromise = models.CharField(max_length=100,default='')
     duration=models.CharField(max_length=100,default='')
-    vulnerable=models.CharField(max_length=2,default='Still Safe')
-    auto_id=models.IntegerField(default=0)
+    vulnerable=models.CharField(max_length=100,default='Still Safe')
+    url=models.CharField(max_length=300,default='')
+    auto_id=models.CharField(max_length=300,default='')
 
     def __str__(self):
         return self.fullname

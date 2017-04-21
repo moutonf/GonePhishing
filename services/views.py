@@ -4,43 +4,49 @@ from django.contrib import auth,redirects   #used auth import  for authenticatio
 import datetime#import for date and time functions
 from .models import members,victims ,users,groups# importing the members modules so can have all the properties
 import random#random number import
+import string#letter generator import
 #------email imports----------------
-import smtplib
+import smtplib, hashlib
 import email.utils
 from email.mime.text import MIMEText
 #-------end email imports-----------
 
-def index(request):
+def index(request):#INDEx page view
+    print (request.session.get('login_session'))
+    print ('printing')
     return render(request,'services/index.html')
 
 def auth_view(request):
     username=request.POST.get('username', '')
     password=request.POST.get('password', '')
+    #password=hashlib.md5(passwrd.encode('utf-8')).hexdigest()
 
     user = auth.authenticate(username=username, password=password)
-    login_session=request.session.get('login_session', False)#var for sessions
+    login_session=request.session.get('login_session', False)
+    #var for sessions
     msg='' #this will hold the error message if there us one
     print('USERNAME'+ username)
     print('session' + str(login_session))
-    if username=='alex':
-        if password=='1234':
+    memberlist=members.objects.all()
+
+    for mem in memberlist:
+        print (mem.username+""+mem.password)
+        if mem.username==username and mem.password==password:
             #auth.login(request,user)#log user in using build in auth.login method
             request.session['login_session']=True
-            print('session'+ str(request.session['login_session']))
-            return HttpResponseRedirect('/loggedin/in/')
+            request.session['user_id']=mem.id
+            print()
+            return HttpResponseRedirect('/dash/')
         else:
             msg = "something wrong"
             return HttpResponseRedirect('/index/', {'errormsg': msg})  # ahh eish have to make this work
-    else:
-         msg="something wrong"
-         return HttpResponseRedirect('/index/',{'errormsg':msg})#ahh eish have to make this work
 
-def loggedin_view(request):
+"""def loggedin_view(request):
     #login_session = request.session['login_session']
     if request.session['login_session']==True:
         return HttpResponseRedirect('/dash/',{'fname':'alex', 'surname':'Rama'})
     else:
-        return HttpResponseRedirect('/index/')
+        return HttpResponseRedirect('/index/')"""
 
 def logout_view(request):
     try:
@@ -51,37 +57,44 @@ def logout_view(request):
         pass
     for keys in request.session.keys():
         print('p2'+keys)
-    return  HttpResponseRedirect('/index/')
+    return HttpResponseRedirect('/index/')
 
 def register_view(request):#display the registration page
     #login_session = request.session['login_session']
     #if login_session == True:
-    return render(request, 'services/register.html')
+
    # else:
     #    return HttpResponseRedirect('/index/')
+    if request.session.get('login_session',False)==False:
+        return render(request, 'services/register.html')
+    else:
+        return HttpResponseRedirect('/dash/')
 
 def registered_view(request):#when you click sign up button it goes to done registring page
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    first_name = request.POST.get('firstname', '')
-    last_name = request.POST.get('surname', '')
-    email = request.POST.get('email', '')
-    organization = request.POST.get('organization', '')
-    membership = request.POST.get('membership', '')
 
+    if request.session.get('login_session',False)==False:
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        first_name = request.POST.get('firstname', '')
+        last_name = request.POST.get('surname', '')
+        email = request.POST.get('email', '')
+        organization = request.POST.get('organization', '')
+        membership = request.POST.get('membership', '')
 
-    context = {'username':username, 'pass':password,'fname':first_name, 'surname':last_name, 'email':email,
-               'organization':organization, 'membership_type':membership} #storing inputs here for such and such
-    #for key, value in context.items(): ##just checking dic context
-    #    print(key, value)
+        hash_pass = hashlib.md5(password.encode('utf-8')).hexdigest()
+        context = {'username': username, 'fname': first_name, 'surname': last_name,
+                   'email': email}  # storing inputs here for such and such
 
-    today = datetime.datetime.now().date()#getting today date without time
+        today = datetime.datetime.now().date()  # getting today date without time
 
-   # new_user = members(username=username, password=password, first_name=first_name, last_name=last_name, email=email,
-                     #organization=organization, membership=membership, register_date=today)
-    #new_user.save()
-    registration_email(email,username)
-    return render(request, 'services/registered.html', context)
+        new_user = members(username=username, password=hash_pass, first_name=first_name, last_name=last_name,
+                           email=email,
+                           organization=organization, membership=membership, register_date=today)
+        new_user.save()
+        registration_email(email, username)
+        return render(request, 'services/registered.html', context)
+    else:
+        return HttpResponseRedirect('/index/')
 
 def registration_email(new_user,username):#lets send an email after a user registers
 
@@ -120,28 +133,39 @@ def attack_email(victim,username,random_id):#lets send an email to a single user
 def dash_view(request):#displays the dashboard
     #print(request.session['login_session'])
     #login_session = request.session['login_session']
-    if request.session['login_session']:
+    if request.session.get('login_session',False)==True:
+        print (request.session['login_session']),'hola'
         victims_model = victims.objects.all()  # get victims list
-        return render(request, 'services/dash.html', {'victims_model': victims_model,'session':login_session})
+        mem_id=request.session.get('user_id')
+        member = members.objects.get(id=mem_id)
+        return render(request, 'services/dash.html', {'victims_model': victims_model,'fname':member.first_name,'lname':member.last_name})
     else:
-        return HttpResponseRedirect(request,'/index/')
+        return HttpResponseRedirect('/index/')
 
 def phish_view(request):#logic for quick phishing attack
     victim_email=request.POST.get('email','')
     victim_name=request.POST.get('username', '')
 
-    random_id=random.randint(1,100)#generate random id
-    print('we in phish view before try')
+    random_id=random.randint(1,1000)#generate random id
+    hash_id = hashlib.md5(repr(random_id).encode('utf-8')).hexdigest()
 
-    print('we in phish view  try')
-    attack_email(victim_email,victim_name,random_id)
-    print('we in phish view  try after mail')
-    today = datetime.datetime.now().date()
-    victim=victims(fullname=victim_name,useremail=victim_email,date_of_attack=str(today),auto_id=random_id)
+    """letter = random.choice(string.ascii_letters) + "" + random.choice(string.ascii_letters) + random.choice(
+    string.ascii_letters) + "" + random.choice(string.ascii_letters)
+    hash_id = hashlib.md5(letter.encode('utf-8')).hexdigest()"""
+    mychars = ''
+    for i in range(16):#this is for generating random characters for user tracking
+        mychars = mychars + random.choice(string.ascii_letters)
 
-    victim.save()
-    print('we in phish view  save try')
-    print('we in phish view final')
+    #str_hash=str(hash_id)
+    #hash_id = hashlib.md5(random_id.encode('utf-8').hexdigest())
+
+    #attack_email(victim_email,victim_name,random_id)#phishing email
+
+    today = datetime.datetime.now().date()#obvious
+    phish_url='http://127.0.0.1:8000/gophish/hooked/'+mychars+'/'#url to be inside the email
+    victim=victims(fullname=victim_name,useremail=victim_email,date_of_attack=str(today),url=phish_url,auto_id=mychars)#record victim details in db
+    victim.save()#save victim in db
+
     return HttpResponseRedirect('/dash/')
 
 def record_click_view(request,user_id):
@@ -153,48 +177,22 @@ def record_click_view(request,user_id):
     return render(request,'services/errorpage.html')
 
 
-
-
-    """def genereate_id(number):
-        for victim in victims_model:
-            if victim.auto_id==random_id:
-                random_id=random.randint(1,100)
-                genereate_id(random_id)
-            else:
-                random_id=number
-    """
-    """""return HttpResponseRedirect('/accounts/loggedin/')
-    #return redirects('accounts/loggedin.html')
-
-    user=auth.authenticate(username=username, password= password)
-    lodegin=request.session.get('loged',False)
-
-    #if user is not None:
-    if username=='alex':
-        if  password=='1234':
-        #auth.login(request,user)
-            request.session['loged']=True
-            return render(request,'accounts/logged.html',{'log':lodegin})
-        else:
-            return render(request,'accounts/login.html',{'error':'Wrong Password'})
-        #return HttpResponseRedirect('/accounts/loggedin')
-    else:
-        #return HttpResponseRedirect('/accounts/invalid')
-        return render(request, 'accounts/invalid.html',{'username':username,'pass':password})"""
-
 def users_view(request):
     return render(request,'services/user.html')
 
 def new_user_view(request):#display the page for adding new users
-    group_model=groups.objects.all()
-    for group in group_model:
-        print(group.group_name)
-    return render(request,'services/new_user.html',{"group_model":group_model})
+    if request.session.get('login_session', False) == True:
+        group_model=groups.objects.all()
+        return render(request,'services/new_user.html',{"group_model":group_model})
+    else: return HttpResponseRedirect('/index/')
 
 def user_list_view(request):#displays the users page
-    user_list=users.objects.all()
-    return render(request,'services/users.html',{'user_list':user_list})
 
+    if request.session.get('login_session',False)==True:
+        user_list = users.objects.all()
+        return render(request, 'services/users.html', {'user_list': user_list})
+    else:
+        return HttpResponseRedirect('/index/')
 def add_user_view(request):#adds a new user to the list
     first_name=request.POST.get('fname','')
     last_name=request.POST.get('lname','')
@@ -229,3 +227,14 @@ def btngroup_view(request):
 
 def showme(request):
     print(request.session.get('login_session'))
+
+def save(request):#saves the url report list
+    filename=request.POST.get("filename", 'report.txt')
+    data=victims.objects.all()
+    for item in data:
+        write_urls("Name: "+item.fullname+" Email: "+item.useremail+" Status: "+item.vulnerable+" URL: "+item.url,filename)
+    return  HttpResponseRedirect('/dash/')
+def write_urls(data,filename):
+    file=open("C:\\Users\\Joe\\Documents\\"+filename,"a+")
+    file.write(str(data) + "\n")
+

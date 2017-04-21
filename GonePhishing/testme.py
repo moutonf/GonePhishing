@@ -3,16 +3,52 @@ import email.utils
 from email.mime.text import MIMEText
 
 
-import hashlib
+import hashlib,random, string
 
-a=hashlib.md5('alex')
-print(a)
-print (a.hexdigest())
+mychars = ''
+for i in range(16):
+    mychars = mychars + random.choice(string.ascii_letters)
+print(mychars)
 
+phish_url='http://127.0.0.1:8000/gophish/hooked/'+mychars+'/'
+print(phish_url)
+"""letter=random.choice(string.ascii_letters) +""+random.choice(string.ascii_letters)+random.choice(string.ascii_letters) +""+random.choice(string.ascii_letters)
 
+md5letter=hashlib.md5(letter.encode('utf-8')).hexdigest()
+print(letter)
+print(md5letter)"""
+#random_id = random.randint(1, 1000)  # generate random id
+#hash_id = hashlib.md5(repr(random_id).encode('utf-8')).hexdigest()
 
+#print(hash_id)
+""""
+def write_urls(data):
+    file=open("C:\\Users\\Joe\\Documents\\test.txt","a+")
+    for item in data:
+        file.write(item+ "\n")
+    file.close()
 
-"""def test(request):
+datlist=["a","b","c","e"]
+
+write_urls(datlist)"""
+"""def add_str_to_lines(f_name, str_to_add):
+    with open(f_name, "r") as f:
+        lines = f.readlines()
+        for index, line in enumerate(lines):
+            lines[index] = line.strip() + str_to_add + "\n"
+
+    with open(f_name, "w") as f:
+        for line in lines:
+            f.write(line)
+
+if __name__ == "__main__":
+    str_to_add = " foo"
+    f_name = "C:\\Users\\Joe\\Documents\\test.txt","a+"
+    add_str_to_lines(f_name=f_name, str_to_add=str_to_add)
+
+    with open(f_name, "r") as f:
+        print(f.read())
+def test(request):
     request.session['login_session']=False
     print(request.session['login_session'])
 

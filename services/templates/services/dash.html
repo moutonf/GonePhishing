@@ -94,7 +94,7 @@
           <ul id="main-menu" class="nav navbar-nav navbar-right">
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span>{{fname}} {{surname}}
+                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span>{{fname}} {{lname}}
                     <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -268,13 +268,21 @@
         </div>
         <div class="col-sm-3 col-md-3">
             <div class="toc">
-                <h3>Table of Contents</h3>
+                <h3>Report Save Options</h3>
                 <ol>
-                    <li><a href="#">Orders</a></li>
-                    <li><a href="#">Billing</a></li>
-                    <li><a href="#">Shipping</a></li>
-                    <li><a href="#">Returns</a></li>
-                    <li><a href="#">Your Account</a></li>
+                    <li><a href="#">Save Report</a></li>
+                    <li><a href="#">Save Compromised</a></li>
+                    <li><a href="#">Save Safe</a></li>
+                    <li>Save Urls</li>
+                    <br>
+                    <li>File Name</li>
+                    <li>
+                        <form action="/save/" method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <input type="text" class="" name="filename">
+                            <input type="submit" name="submit" value="Save">
+                        </form>
+                    </li>
+
                 </ol>
             </div>
             <div class="toc">
