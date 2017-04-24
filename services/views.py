@@ -81,13 +81,13 @@ def registered_view(request):#when you click sign up button it goes to done regi
         organization = request.POST.get('organization', '')
         membership = request.POST.get('membership', '')
 
-        hash_pass = hashlib.md5(password.encode('utf-8')).hexdigest()
+        #hash_pass = hashlib.md5(password.encode('utf-8')).hexdigest()
         context = {'username': username, 'fname': first_name, 'surname': last_name,
                    'email': email}  # storing inputs here for such and such
 
         today = datetime.datetime.now().date()  # getting today date without time
 
-        new_user = members(username=username, password=hash_pass, first_name=first_name, last_name=last_name,
+        new_user = members(username=username, password=password, first_name=first_name, last_name=last_name,
                            email=email,
                            organization=organization, membership=membership, register_date=today)
         new_user.save()
