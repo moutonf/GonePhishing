@@ -91,7 +91,7 @@ def registered_view(request):#when you click sign up button it goes to done regi
                            email=email,
                            organization=organization, membership=membership, register_date=today)
         new_user.save()
-        registration_email(email, username)
+        #registration_email(email, username)
         return render(request, 'services/registered.html', context)
     else:
         return HttpResponseRedirect('/index/')
