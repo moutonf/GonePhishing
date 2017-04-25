@@ -35,7 +35,7 @@ def auth_view(request):
             #auth.login(request,user)#log user in using build in auth.login method
             request.session['login_session']=True
             request.session['user_id']=mem.id
-            print()
+            print(request.session.get('user_id'))
             return HttpResponseRedirect('/dash/')
         else:
             msg = "something wrong"
@@ -101,12 +101,12 @@ def registration_email(new_user,username):#lets send an email after a user regis
     # Create the message
     msg = MIMEText('Welcome to the site '+ username+'click on the link below to confirm your email address')
     msg['To'] = email.utils.formataddr(('Recipient', new_user))
-    msg['From'] = email.utils.formataddr(('Fisher Man', 'alexramantswana@gmail.com'))
+    msg['From'] = email.utils.formataddr(('Fisher Man', 'srv101.mail@gmail.com'))
     msg['Subject'] = 'Welcome to the site '+ username
 
     server = smtplib.SMTP('smtp.gmail.com:587')
     server.starttls()
-    server.login('alexramantswana@gmail.com', 'thanyani12')
+    server.login('srv101.mail@gmail.com', 'thanyani12')
     server.set_debuglevel(True)  # show communication with the server
     try:
         server.sendmail('alexramantswana@gmail.com', [new_user], msg.as_string())
@@ -135,12 +135,17 @@ def dash_view(request):#displays the dashboard
     #login_session = request.session['login_session']
     if request.session.get('login_session',False)==True:
         print (request.session['login_session']),'hola'
-        victims_model = victims.objects.all()  # get victims list
-        mem_id=request.session.get('user_id')
-        member = members.objects.get(id=mem_id)
-        return render(request, 'services/dash.html', {'victims_model': victims_model,'fname':member.first_name,'lname':member.last_name})
+
+        mem_id=request.session.get('user_id')#users id stored session in login/auth view
+        member = members.objects.get(id=mem_id)#
+
+        victims_model = victims.objects.all()  # get victims list of the logged in user
+        print(member)
+
+        return render(request, 'services/dash.html', {'victims_model': victims_model,'fname':member.first_name,'lname':member.last_name })
     else:
         return HttpResponseRedirect('/index/')
+
 
 def phish_view(request):#logic for quick phishing attack
     victim_email=request.POST.get('email','')
@@ -163,7 +168,8 @@ def phish_view(request):#logic for quick phishing attack
 
     today = datetime.datetime.now().date()#obvious
     phish_url='http://139.162.178.79:8000/gophish/hooked/'+mychars+'/'#url to be inside the email
-    victim=victims(fullname=victim_name,useremail=victim_email,date_of_attack=str(today),url=phish_url,auto_id=mychars)#record victim details in db
+    mem_id = request.session.get('user_id')  # users id stored session in login/auth view
+    victim=victims(fullname=victim_name,useremail=victim_email,date_of_attack=str(today),url=phish_url,auto_id=mychars,predator_id=mem_id)#record victim details in db
     victim.save()#save victim in db
 
     return HttpResponseRedirect('/dash/')
@@ -173,6 +179,7 @@ def record_click_view(request,user_id):
     status="compromised"
     victim=victims.objects.get(auto_id=user_id)
     victim.vulnerable=status
+    victim.date_of_compromise=str(datetime.datetime.now())
     victim.save()
     return render(request,'services/errorpage.html')
 
@@ -238,3 +245,9 @@ def write_urls(data,filename):
     file=open("C:\\Users\\Joe\\Documents\\"+filename,"a+")
     file.write(str(data) + "\n")
 
+def reset_view(request,user_id):
+    victim = victims.objects.get(auto_id=user_id)
+    victim.vulnerable = "still safe"
+    victim.date_of_compromise = str(datetime.datetime.now())
+    victim.save()
+    return HttpResponseRedirect('/dash/')
