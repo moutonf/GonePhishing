@@ -179,7 +179,9 @@ def record_click_view(request,user_id):
     status="compromised"
     victim=victims.objects.get(auto_id=user_id)
     victim.vulnerable=status
-    victim.date_of_compromise=str(datetime.datetime.now())
+    today=str(datetime.datetime.now())
+    date_time= today[:-7]
+    victim.date_of_compromise =date_time
     victim.save()
     return render(request,'services/errorpage.html')
 
@@ -246,8 +248,8 @@ def write_urls(data,filename):
     file.write(str(data) + "\n")
 
 def reset_view(request,user_id):
-    victim = victims.objects.get(auto_id=user_id)
+    victim = victims.objects.get(id=user_id)
     victim.vulnerable = "still safe"
-    victim.date_of_compromise = str(datetime.datetime.now())
+    victim.date_of_compromise =''
     victim.save()
     return HttpResponseRedirect('/dash/')

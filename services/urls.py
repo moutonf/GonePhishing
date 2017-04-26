@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^user_list/$', views.user_list_view),#shows list of users
     url(r'^btngroup/$', views.btngroup_view),#add group
     url(r'^save/$', views.save),#writes urls to the file
+    url(r'^reset/(?P<user_id>[\w\-]+)/$', views.reset_view),  # logic for reseting vulnerability status
 
 
 ]

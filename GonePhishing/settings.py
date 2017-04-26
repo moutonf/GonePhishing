@@ -15,13 +15,12 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#This is for the session to work
-SESSION_SAVE_EVERY_REQUEST = True
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^3-83e$z$i=l5f=)uxedsacyff!jm(x#-*$8fnlpr)th^@^1h&'
+SECRET_KEY = '2etl9n&7o!p%^zlxuiweqswd)9kre)c+d&!tbjbt!_=)1-c3%l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,7 +32,6 @@ ALLOWED_HOSTS = ['139.162.178.79','127.0.0.1']
 
 INSTALLED_APPS = [
     'services',
-    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,5 +119,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
-

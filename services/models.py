@@ -24,6 +24,7 @@ class victims(models.Model):
     vulnerable=models.CharField(max_length=100,default='Still Safe')
     url=models.CharField(max_length=300,default='')
     auto_id=models.CharField(max_length=300,default='')
+    predator=models.ForeignKey('members')
 
     def __str__(self):
         return self.fullname
