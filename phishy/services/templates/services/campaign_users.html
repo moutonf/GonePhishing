@@ -172,6 +172,7 @@
       <th>Full Name</th>
       <th>Email</th>
       <th>Date of Attack </th>
+      <th>Status</th>
       <th style="width: 3.5em;"></th>
     </tr>
   </thead>
@@ -182,9 +183,10 @@
       <td>{{users.fullname}}</td>
       <td>{{users.useremail}}</td>
       <td>{{users.sent_date}}</td>
+      <td>{{users.status}}</td>
       <td><a href="/campaign/user/details/{{group_id}}/{{users.id}}">Details</a></td>
       <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
+          <!--a href="user.html"><i class="fa fa-pencil"></i></a-->
           <a href="{{users.id}}" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
       </td>
     </tr>

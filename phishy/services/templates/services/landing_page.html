@@ -94,7 +94,7 @@
           <ul id="main-menu" class="nav navbar-nav navbar-right">
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Jack Smith
+                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> {{fname}} {{lname}}
                     <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -172,33 +172,31 @@
     </tr>
   </thead>
   <tbody>
+  {% for page in pages %}
     <tr>
       <td>1</td>
-      <td>Mark</td>
-      <td>Tompson</td>
-      <td>the_mark7</td>
+      <td>{{page.page_name}}</td>
+      <td>{{page.page_name}}</td>
+        <td><a href="">Preview</a></td>
       <td>
           <a href="user.html"><i class="fa fa-pencil"></i></a>
           <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
       </td>
     </tr>
-
+  {% endfor %}
   </tbody>
 </table>
-                           {% for page in pages %}
-                                <p>{{page.page_name}}</p>
-                                <p><img href="{{page.page_upload.url}}"></img></p>
-                           {% endfor %}
 
-<ul class="pagination">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>
+
+<!--<ul class="pagination">-->
+  <!--<li><a href="#">&laquo;</a></li>-->
+  <!--<li><a href="#">1</a></li>-->
+  <!--<li><a href="#">2</a></li>-->
+  <!--<li><a href="#">3</a></li>-->
+  <!--<li><a href="#">4</a></li>-->
+  <!--<li><a href="#">5</a></li>-->
+  <!--<li><a href="#">&raquo;</a></li>-->
+<!--</ul>-->
 
 <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">

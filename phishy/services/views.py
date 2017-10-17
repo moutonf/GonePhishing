@@ -17,7 +17,7 @@ from email.mime.text import MIMEText
 import requests
 import subprocess
 import json
-import os
+import os,datetime
 #--------end bitly--------------------
 #methods to add----------
 #return todays date
@@ -258,6 +258,29 @@ def record_click_view(request,user_id):
     click_data.save()
     return render(request,'services/errorpage.html')
 
+def campaign_click_view(request,url_id):
+
+    #change user status to compromised
+    status="compromised"
+    victim=userss.objects.get(url_id=url_id)
+    victim.status=status
+    victim.save()
+
+
+    #mem_id = request.session.get('user_id')  # users id stored session in login/auth view
+
+
+    #member_id=members.objects.get(id=int(victim.member_id))
+    #ip_add=os.environ["REMOTE_ADDR"]
+    ip_add=request.environ['REMOTE_ADDR']
+
+    #owner=quick_attack.objects.get(id=victim.id)
+
+    click_data=campaign_clicks(ip_add=ip_add,date_of_compromise=todays(),member_id=victim.member_id,user_id=victim)
+    click_data.save()
+
+    return render(request,'services/errorpage.html')
+
 def detail_view(request,click_id):#dispays the detail view when u click details link in dashboard
     victim_details=quick_attack.objects.get(id=click_id)
     clicks=quick_attack_clicks.objects.filter(user_id=victim_details.id)
@@ -316,7 +339,7 @@ def add_campaign_view(request):
         campaign_name=request.POST.get('campaign_name','')
         campaign_descr = request.POST.get('campaign_desc', '')
 
-        new_campaign=campaign(campaign_name=campaign_name,campaign_desc=campaign_descr,member_id=member_id)
+        new_campaign=campaign(campaign_name=campaign_name,campaign_desc=campaign_descr,date_created=todays(),member_id=member_id)
         new_campaign.save()
 
 
@@ -354,8 +377,9 @@ def campaign_results_view(request,campaign_id):#dispays the detail view when u c
 def campaign_config_view(request,campaign_id):#dispays the detail view when u click details link in dashboard
     if request.session.get('login_session', False) == True:
         group_list = groups.objects.filter(campaign_id=campaign_id)
-
-        return render(request,'services/campaign_config.html',{'group_list':group_list,'campaign_id':campaign_id})
+        profile_model = sending_profiles.objects.filter(member_id=get_member_id(request))
+        landing_pages=landin_page.objects.filter(member_id=get_member_id(request))
+        return render(request,'services/campaign_config.html',{'group_list':group_list,'campaign_id':campaign_id,'profiles':profile_model})
     return HttpResponseRedirect('/index/')
 
 def campign_users_view(request,group_id): #display list of users
@@ -371,8 +395,9 @@ def campign_users_view(request,group_id): #display list of users
 def campign_users_detail_view(request,group_id,user_id):
     #group=groups.objects.get(group_id=group_id)
     usr_list=userss.objects.filter(id=user_id, group_id=group_id)
+    click_details=campaign_clicks.objects.filter(user_id=user_id)
 
-    return render(request,'services/campaign_details_users.html',{'details':usr_list})
+    return render(request,'services/campaign_details_users.html',{'details':usr_list,'clicks':click_details})
 
 def campaign_start_view(request,campaign_id):
     target_campaign=campaign.objects.get(campaign_id=campaign_id)
@@ -389,10 +414,11 @@ def campaign_start_view(request,campaign_id):
                 mychars = mychars + random.choice(string.ascii_letters)
             #print('mychars :'+ mychars)
 
-            long_url = 'http://127.0.0.1:8000/gophish/hooked/' + mychars + '/'  # url to be inside the email
+            long_url = 'http://127.0.0.1:8000/gophish/hook/' + mychars + '/'  # url to be inside the email
             bitly_url = url_shortner(long_url)
             user.long_url=long_url
             user.short_url=bitly_url
+            user.url_id=mychars
 
             '''print(long_url)
             print(bitly_url)
@@ -578,17 +604,17 @@ def new_page(request):
         return render(request, 'services/new_landing_page.html')
     else: return HttpResponseRedirect('/index/')
 
-def add_landing_pages(request):
 
+def add_landing_pages(request):
     if request.session.get('login_session', False) == True:
         page_name = request.POST.get('page_name', '')
-        page_content = request.POST.get('page_content', '')
-
-
-        new_page = landin_page(page_name=page_content, page_content=page_content, member_id=get_member_id(request))
+        new_page = landin_page(page_name=page_name, page_upload=request.FILES.get('page_upload'))
         new_page.save()
-        return render(request, 'services/new_landing_page.html')
-    else: return HttpResponseRedirect('/index/')
+    return HttpResponseRedirect('/langing/')  # file=request.POST.get('page_upload')
+# from pprint import pprint
+# pprint(request.POST)
+# pprint(request.FILES)
+# file = request.FILES['page_upload']
 
 def landing_page_remove_view(request, group_id):
     if request.session.get('login_session', False) == True:

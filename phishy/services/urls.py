@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^gophish/$', views.phish_view),  # function to send an attack
     # url(r'^gophish/hooked/(?P<user_id>[0-9]+)/$', views.record_click_view),#this is function that records the view
     url(r'^gophish/hooked/(?P<user_id>[\w\-]+)/$', views.record_click_view),
+    url(r'^gophish/hook/(?P<url_id>[\w\-]+)/$', views.campaign_click_view),
 
 
 
@@ -79,6 +80,7 @@ urlpatterns = [
     url(r'^langing/$', views.landing_pages),
     url(r'^landing/new/$', views.new_page),
     url(r'^landing/add/$', views.add_landing_pages),
+    url(r'^addpage/$',views.add_landing_pages),
 
     # sending profiles stuff urls-------------------------------------------
     url(r'^profiles/$', views.profile_view),

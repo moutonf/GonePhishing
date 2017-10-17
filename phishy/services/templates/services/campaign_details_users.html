@@ -145,7 +145,7 @@
             <h1 class="page-title">GonePhishing Administration</h1>
                     <ul class="breadcrumb">
             <li><a href="index.html">Home</a> </li>
-            <li class="active">Details</li>
+            <li class="active">Campaign Details</li>
         </ul>
 
         </div>
@@ -169,8 +169,7 @@
                 <table class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>Sent Date </th>
-                  <th>Click date</th>
+                  <th>Date Of Click </th>
                   <th>IP Address</th>
                   <th>Remove Record</th>
                 </tr>
@@ -179,10 +178,9 @@
               <tbody>
 
                     <tr>
-                        {% for d in details %}
-                         <td>{{d.sent_date}}</td>
-                         <td>{{d.date_of_compromise}}</td>
-                         <td>{{d.ip_add}}</td>
+                        {% for click in clicks %}
+                         <td>{{click.date_of_compromise}}</td>
+                         <td>{{click.ip_add}}</td>
                          <td><a href="/remove/{{ clicks.click_id }}/">Remove</a></td>
                     </tr>
                     {% endfor %}
@@ -190,7 +188,7 @@
               </tbody>
 
             </table>
-                    <p><a href="/dash/">Back</a> </p>
+                    <p><a href="/campaign/">Back</a></p>
                 </div>
             </div>
 
@@ -227,17 +225,14 @@
 
 </div>
 </div>
-
-
             <footer>
                 <hr>
-
                 <!-- Purchase a site license to remove this link from the footer: http://www.portnine.com/bootstrap-themes -->
                 <p class="pull-right">A <a href="http://www.portnine.com/bootstrap-themes" target="_blank">Free Bootstrap Theme</a> by <a href="http://www.portnine.com" target="_blank">Portnine</a></p>
                 <p>© 2014 <a href="http://www.portnine.com" target="_blank">Portnine</a></p>
             </footer>
         </div>
-    </div>
+</div>
 
 
     <script src="{% static 'services/lib/bootstrap/js/bootstrap.js' %}"></script>

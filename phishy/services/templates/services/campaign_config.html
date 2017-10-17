@@ -160,6 +160,13 @@
         <select>
             <option>Select Landing Page</option>
         </select>
+
+        <select>
+            <option>Sending Profile</option>
+            {% for profile in profiles %}
+            <option value="{{profile.profile_name}}">{{profile.profile_name}}</option>
+            {% endfor %}
+        </select>
     <!--button name="import" class="btn btn-default"> Import Group</button>
         <!--button-- name="export" class="btn btn-default"><i class="fa fa-plus"></i><a href="/campaign/details/{{campaign.campaign_id}}/"> Export Group</a></button-->
 

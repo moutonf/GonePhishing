@@ -42,6 +42,15 @@ class quick_attack_clicks(models.Model):
     member_id = models.ForeignKey('members', on_delete=models.CASCADE, default=0)
     user_id = models.ForeignKey('quick_attack', on_delete=models.CASCADE, default=0)
 
+class campaign_clicks(models.Model):
+    click_id=models.AutoField(primary_key=True)
+    long_url = models.CharField(max_length=300, default='')
+    short_url = models.CharField(max_length=300, default='')
+    ip_add=models.CharField(max_length=30, default='')
+    date_of_compromise = models.CharField(max_length=100, default='')
+    member_id = models.ForeignKey('members', on_delete=models.CASCADE, default=0)
+    user_id = models.ForeignKey('userss', on_delete=models.CASCADE, default=0)
+
 class campaign(models.Model):
     campaign_id=models.AutoField(primary_key=True)
     campaign_name=models.CharField(max_length=100,default='')
