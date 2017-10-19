@@ -88,13 +88,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="" href="index.html"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Aircraft</span></a></div>
+          <a class="" href="index.html"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> CSIR</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span>{{fname}} {{lname}}
+                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Jack Smith
                     <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -116,7 +116,7 @@
     </div>
     
 
-    <div class="sidebar-nav">
+   <div class="sidebar-nav">
     <ul>
     <li><a href="/dash/" data-target=".dashboard-menu" class="nav-header" data-toggle=""><i class=""></i> Dashboard<i class=""></i></a></li>
         <li><a href="/campaign/" data-target=".accounts-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> Campaigns <span class=""></span></a></li>
@@ -129,29 +129,30 @@
         <li><a href="/langing/" class="nav-header" target="blank"><i class=""></i>Landing Pages</a></li>
         <li><a href="/profiles/" class="nav-header" target="blank"><i class=""></i>Sending Profiles</a></li>
 
-        <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> My Profile <span class=""></span></a></li>
+        <li><a href="/userprofile/" data-target=".accounts-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> My Profile <span class=""></span></a></li>
 
 
         <li><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> User Guide<i class=""></i></a></li>
 
-        <li><a href="/logout/" class="nav-header" target="blank"><i class=""></i>Logout</a></li>
+       <li><a href="/logout/" class="nav-header" target="blank"><i class=""></i>Logout</a></li>
     </ul>
+
     </div>
 
     <div class="content">
         <div class="header">
             
-            <h1 class="page-title">Users</h1>
+            <h1 class="page-title">Groups</h1>
                     <ul class="breadcrumb">
             <li><a href="/dash/">Home</a> </li>
-            <li class="active">Users</li>
+            <li class="active">Groups</li>
         </ul>
 
         </div>
         <div class="main-content">
             
 <div class="btn-toolbar list-toolbar">
-        <button name="newuser" class="btn btn-primary"><i class="fa fa-plus"></i><a href="/user/new/"--> New User</a></button>
+        <button name="newuser" class="btn btn-primary"><i class="fa fa-plus"></i><a href="/groups/new/"> New Group</a></button>
         <button name="import" class="btn btn-default">Import</button>
         <button name="export" class="btn btn-default">Export</button>
     <!--form action="/btngroup/" method="post" enctype="multipart/form-data">{% csrf_token %}
@@ -167,30 +168,28 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>Full Name</th>
-      <th>Email</th>
-      <th>Date of Attack </th>
+      <th>Group Name</th>
+      <th>Campaign Name</th>
+      <th>Number of Users(g i for th momnt)</th>
+      <th></th>
       <th style="width: 3.5em;"></th>
     </tr>
   </thead>
   <tbody>
-    {% for users in user_list%}
-    <tr>
-      <td>1</td>
-      <td>{{users.fullname}}</td>
-      <td>{{users.}useremail}</td>
-      <td>{{users.sent_date}}</td>
-      <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
-          <a href="{{users.id}}" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-      </td>
-    </tr>
+  {% for group in group_model %}
+        <tr>
+            <td>1</td>
+            <td>{{ group.group_name }}</td>
+            <td>{{ group.campaign_id }}</td>
+            <td>{{ group.group_id }}</td>
+            <td><a href="/group/import/{{campaign_id}}/{{ group.group_id }}/">Import</a></td>
+        </tr>
   {% endfor %}
 
   </tbody>
 </table>
 
-<ul class="pagination">
+<!--ul class="pagination">
   <li><a href="#">&laquo;</a></li>
   <li><a href="#">1</a></li>
   <li><a href="#">2</a></li>
@@ -198,7 +197,7 @@
   <li><a href="#">4</a></li>
   <li><a href="#">5</a></li>
   <li><a href="#">&raquo;</a></li>
-</ul>
+</ul-->
 
 <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">

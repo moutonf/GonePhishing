@@ -88,7 +88,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="" href="index.html"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Aircraft</span></a></div>
+          <a class="" href="index.html"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> CSIR</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
@@ -141,17 +141,19 @@
     <div class="content">
         <div class="header">
             
-            <h1 class="page-title">Users</h1>
-                    <ul class="breadcrumb">
-            <li><a href="/dash/">Home</a> </li>
-            <li class="active">Users</li>
-        </ul>
+            <h1 class="page-title">Group Name: {{group_name }} </h1>
+            <ul class="breadcrumb">
+                <li><a href="/dash/">Home</a> </li>
+                <li><a href="/campaign/">Campaign</a> </li>
+                <li><a href="/campaign/">Groups</a> </li>
+                <li class="active">Users</li>
+            </ul>
 
         </div>
         <div class="main-content">
             
 <div class="btn-toolbar list-toolbar">
-        <button name="newuser" class="btn btn-primary"><i class="fa fa-plus"></i><a href="/user/new/"--> New User</a></button>
+        <button name="newuser" class="btn btn-primary"><i class="fa fa-plus"></i><a href="/campaign/new/user/{{group_id}}"--> New User</a></button>
         <button name="import" class="btn btn-default">Import</button>
         <button name="export" class="btn btn-default">Export</button>
     <!--form action="/btngroup/" method="post" enctype="multipart/form-data">{% csrf_token %}
@@ -170,6 +172,7 @@
       <th>Full Name</th>
       <th>Email</th>
       <th>Date of Attack </th>
+      <th>Status</th>
       <th style="width: 3.5em;"></th>
     </tr>
   </thead>
@@ -178,10 +181,12 @@
     <tr>
       <td>1</td>
       <td>{{users.fullname}}</td>
-      <td>{{users.}useremail}</td>
+      <td>{{users.useremail}}</td>
       <td>{{users.sent_date}}</td>
+      <td>{{users.status}}</td>
+      <td><a href="/campaign/user/details/{{group_id}}/{{users.id}}">Details</a></td>
       <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
+          <!--a href="user.html"><i class="fa fa-pencil"></i></a-->
           <a href="{{users.id}}" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
       </td>
     </tr>

@@ -18,6 +18,7 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'services/stylesheets/theme.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'services/stylesheets/premium.css'}">
+    <link rel="stylesheet" type="text/css" href="stylesheets/premium.css">
 
 </head>
 <body class=" theme-blue">
@@ -94,7 +95,7 @@
           <ul id="main-menu" class="nav navbar-nav navbar-right">
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span>{{fname}} {{lname}}
+                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> {{fname}}{{lname}}
                     <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -116,7 +117,7 @@
     </div>
     
 
-    <div class="sidebar-nav">
+   <div class="sidebar-nav">
     <ul>
     <li><a href="/dash/" data-target=".dashboard-menu" class="nav-header" data-toggle=""><i class=""></i> Dashboard<i class=""></i></a></li>
         <li><a href="/campaign/" data-target=".accounts-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> Campaigns <span class=""></span></a></li>
@@ -129,93 +130,90 @@
         <li><a href="/langing/" class="nav-header" target="blank"><i class=""></i>Landing Pages</a></li>
         <li><a href="/profiles/" class="nav-header" target="blank"><i class=""></i>Sending Profiles</a></li>
 
-        <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> My Profile <span class=""></span></a></li>
+        <li><a href="/userprofile/" data-target=".accounts-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> My Profile <span class=""></span></a></li>
 
 
         <li><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> User Guide<i class=""></i></a></li>
 
-        <li><a href="/logout/" class="nav-header" target="blank"><i class=""></i>Logout</a></li>
+       <li><a href="/logout/" class="nav-header" target="blank"><i class=""></i>Logout</a></li>
     </ul>
+
     </div>
 
     <div class="content">
         <div class="header">
             
-            <h1 class="page-title">Users</h1>
+            <h1 class="page-title">Edit User</h1>
                     <ul class="breadcrumb">
-            <li><a href="/dash/">Home</a> </li>
-            <li class="active">Users</li>
+            <li><a href="index.html">Home</a> </li>
+            <li><a href="users.html">Users</a> </li>
+            <li class="active">{{member.first_name}} {{member.last_name}}</li>
         </ul>
 
         </div>
         <div class="main-content">
             
-<div class="btn-toolbar list-toolbar">
-        <button name="newuser" class="btn btn-primary"><i class="fa fa-plus"></i><a href="/user/new/"--> New User</a></button>
-        <button name="import" class="btn btn-default">Import</button>
-        <button name="export" class="btn btn-default">Export</button>
-    <!--form action="/btngroup/" method="post" enctype="multipart/form-data">{% csrf_token %}
-        <button name="newuser" class="btn btn-primary"><i class="fa fa-plus"></i> New User</button>
-        <button name="import" class="btn btn-default">Import</button>
-        <button name="export" class="btn btn-default">Export</button>
-    </form-->
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#home" data-toggle="tab">My Profile</a></li>
+</ul>
 
-  <div class="btn-group">
+<div class="row">
+  <div class="col-md-4">
+    <br>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="home">
+      <form id="tab" method="post" enctype="multipart/form-data" action="/saveprofile/">{% csrf_token %}
+        <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" value="{{member.username}}" class="form-control">
+        </div>
+
+        <div class="form-group">
+        <label>First Name</label>
+        <input type="text" name="firstname" value="{{member.first_name}}"  class="form-control">
+        </div>
+
+        <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="surname" value="{{member.last_name}}" class="form-control">
+        </div>
+
+        <div class="form-group">
+        <label>Email</label>
+        <input type="text" name="email" value="{{member.email}}"  class="form-control">
+        </div>
+
+        <div class="form-group">
+        <label>Organization</label>
+        <input type="text" name="organization" value="{{member.organization}}"  class="form-control">
+        </div>
+          <input type="submit" name="submit" value="Save" class="btn btn-primary">
+
+        </form>
+      </div>
+
+    </div>
+
   </div>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Full Name</th>
-      <th>Email</th>
-      <th>Date of Attack </th>
-      <th style="width: 3.5em;"></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for users in user_list%}
-    <tr>
-      <td>1</td>
-      <td>{{users.fullname}}</td>
-      <td>{{users.}useremail}</td>
-      <td>{{users.sent_date}}</td>
-      <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
-          <a href="{{users.id}}" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-      </td>
-    </tr>
-  {% endfor %}
-
-  </tbody>
-</table>
-
-<ul class="pagination">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>
 
 <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Delete Confirmation</h3>
-        </div>
-        <div class="modal-body">
-            <p class="error-text"><i class="fa fa-warning modal-icon"></i>Are you sure you want to delete the user?<br>This cannot be undone.</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-            <button class="btn btn-danger" data-dismiss="modal">Delete</button>
-        </div>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Delete Confirmation</h3>
+      </div>
+      <div class="modal-body">
+        
+        <p class="error-text"><i class="fa fa-warning modal-icon"></i>Are you sure you want to delete the user?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-danger" data-dismiss="modal">Delete</button>
       </div>
     </div>
+  </div>
 </div>
 
 

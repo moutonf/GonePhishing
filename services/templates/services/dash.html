@@ -14,6 +14,7 @@
 
     <script src="{% static 'services/lib/jquery-1.11.1.min.js'}" type="text/javascript"></script>
 
+
     
 
     <link rel="stylesheet" type="text/css" href="{% static 'services/stylesheets/theme.css' %}">
@@ -118,49 +119,25 @@
 
     <div class="sidebar-nav">
     <ul>
-    <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
-    <li><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
-            <li ><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li ><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
-            <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
-            <li ><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
-    </ul></li>
+    <li><a href="/dash/" data-target=".dashboard-menu" class="nav-header" data-toggle=""><i class=""></i> Dashboard<i class=""></i></a></li>
+        <li><a href="/campaign/" data-target=".accounts-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> Campaigns <span class=""></span></a></li>
 
-    <li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li>
-        <li><ul class="premium-menu nav nav-list collapse">
-            <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span></li>
-            <li ><a href="premium-profile.html"><span class="fa fa-caret-right"></span> Enhanced Profile</a></li>
-            <li ><a href="premium-blog.html"><span class="fa fa-caret-right"></span> Blog</a></li>
-            <li ><a href="premium-blog-item.html"><span class="fa fa-caret-right"></span> Blog Page</a></li>
-            <li ><a href="premium-pricing-tables.html"><span class="fa fa-caret-right"></span> Pricing Tables</a></li>
-            <li ><a href="premium-upgrade-account.html"><span class="fa fa-caret-right"></span> Upgrade Account</a></li>
-            <li ><a href="premium-widgets.html"><span class="fa fa-caret-right"></span> Widgets</a></li>
-            <li ><a href="premium-timeline.html"><span class="fa fa-caret-right"></span> Activity Timeline</a></li>
-            <li ><a href="premium-users.html"><span class="fa fa-caret-right"></span> Enhanced Users List</a></li>
-            <li ><a href="premium-media.html"><span class="fa fa-caret-right"></span> Enhanced Media</a></li>
-            <li ><a href="premium-invoice.html"><span class="fa fa-caret-right"></span> Invoice</a></li>
-            <li ><a href="premium-build.html"><span class="fa fa-caret-right"></span> Advanced Tools</a></li>
-            <li ><a href="premium-colors.html"><span class="fa fa-caret-right"></span> Additional Color Themes</a></li>
-    </ul></li>
 
-        <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
-        <li><ul class="accounts-menu nav nav-list collapse">
-            <li ><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li ><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
-            <li ><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
-    </ul></li>
+        <li><a href="/groups/" data-target=".legal-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> User And Groups<i class=""></i></a></li>
+        <li><a href="/send/" data-target=".legal-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> Email Templates<i class=""></i></a></li>
 
-        <li><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-legal"></i> Legal<i class="fa fa-collapse"></i></a></li>
-        <li><ul class="legal-menu nav nav-list collapse">
-            <li ><a href="privacy-policy.html"><span class="fa fa-caret-right"></span> Privacy Policy</a></li>
-            <li ><a href="terms-and-conditions.html"><span class="fa fa-caret-right"></span> Terms and Conditions</a></li>
-    </ul></li>
 
-        <li><a href="help.html" class="nav-header"><i class="fa fa-fw fa-question-circle"></i> Help</a></li>
-            <li><a href="faq.html" class="nav-header"><i class="fa fa-fw fa-comment"></i> Faq</a></li>
-                <li><a href="/logout/" class="nav-header" target="blank"><i class="fa fa-fw fa-heart"></i> Logout</a></li>
-            </ul>
+        <li><a href="/langing/" class="nav-header" target="blank"><i class=""></i>Landing Pages</a></li>
+        <li><a href="/profiles/" class="nav-header" target="blank"><i class=""></i>Sending Profiles</a></li>
+
+        <li><a href="/userprofile/" data-target=".accounts-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> My Profile <span class=""></span></a></li>
+
+
+        <li><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle=""><i class=""></i> User Guide<i class=""></i></a></li>
+
+       <li><a href="/logout/" class="nav-header" target="blank"><i class=""></i>Logout</a></li>
+    </ul>
+
     </div>
 
     <div class="content">
@@ -168,7 +145,7 @@
             
             <h1 class="page-title">GonePhishing Administration</h1>
                     <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> </li>
+            <li><a href="/dash/">Home</a> </li>
             <li class="active">Admin</li>
         </ul>
 
@@ -196,8 +173,8 @@
                   <th>Email</th>
                   <th>Date Sent</th>
                   <th>Status</th>
-                    <th>URL</th>
-                    <th>Date Compromised</th>
+                    <!--th>URL</th-->
+                    <th>Details</th>
                     <th>Reset Status</th>
                 </tr>
               </thead>
@@ -208,10 +185,10 @@
                         {% for victims in victims_model %}
                          <td>{{victims.fullname}}</td>
                          <td>{{victims.useremail}}</td>
-                         <td>{{victims.date_of_attack}}</td>
-                         <td>{{victims.vulnerable}}</td>
-                         <td>{{victims.url}}</td>
-                         <td>{{victims.date_of_compromise}}</td>
+                         <td>{{victims.sent_date}}</td>
+                         <td>{{victims.status}}</td>
+                         <!--td>{{victims.url}}</td-->
+                         <td><a href="/details/{{ victims.id }}/">Details</a></td>
                          <td><a href="/reset/{{ victims.id }}/">Reset</a></td>
                     </tr>
                     {% endfor %}
@@ -227,12 +204,57 @@
                     <p>To send a Phishing attack to a user without having to add the user to your Victim List   </p>
                     <form action="/gophish/" enctype="multipart/form-data" method="post">{% csrf_token %}
                         <input type="email" name="email" placeholder="Your Target Email" id="email">
+                        <select>
+                            <option>Sending Profile</option>
+                            {% for profile in profiles %}
+                            <option value="{{profile.profile_name}}">{{profile.profile_name}}</option>
+                            {% endfor %}
+                        </select>
                         <input type="text" name="username" placeholder="Your Target Full Name" id="username">
                         <input type="submit" name="submit" id="submit" value="Go Phish"><label>{{msg}}</label>
                     </form>
                     <div class="clearfix"></div>
                 </div>
             </div>
+
+
+
+            <!--<div class="panel panel-default">-->
+                <!--<p class="panel-heading">Campaign Report</p>-->
+                <!--<div class="panel-body">-->
+
+                <!--<table class="table table-bordered table-striped">-->
+              <!--<thead>-->
+                <!--<tr>-->
+                  <!--<th>Campaign Name</th>-->
+                  <!--<th>Date Started</th>-->
+                  <!--<th>Groups</th>-->
+                  <!--<th>Safe Users</th>-->
+                  <!--<th>Compromised</th>-->
+                  <!--<th>Details</th>-->
+                  <!--<th>Reset Status</th>-->
+                <!--</tr>-->
+              <!--</thead>-->
+
+              <!--<tbody>-->
+
+                    <!--<tr>-->
+                        <!--{% for victims in victims_model %}-->
+                         <!--<td>{{victims.fullname}}</td>-->
+                         <!--<td>{{victims.useremail}}</td>-->
+                         <!--<td>{{victims.sent_date}}</td>-->
+                         <!--<td>{{victims.status}}</td>-->
+                         <!--&lt;!&ndash;td>{{victims.url}}</td&ndash;&gt;-->
+                         <!--<td><a href="/details/{{ victims.id }}/">Details</a></td>-->
+                         <!--<td><a href="/reset/{{ victims.id }}/">Reset</a></td>-->
+                    <!--</tr>-->
+                    <!--{% endfor %}-->
+
+              <!--</tbody>-->
+            <!--</table>-->
+                <!--</div>-->
+            <!--</div>-->
+
 
             <div class="panel panel-default">
                 <p class="panel-heading">Popular Topics</p>
@@ -241,14 +263,18 @@
                     <div class="pull-left unstyled col-sm-4 col-md-4">
                          <p>User Admin</p>
 
-                        <p><a href="/new_user/" class="btn btn-default" style="width: 115px;">Add User </a></p>
-                        <p><a href="/user_list/" class="btn btn-default" style="width: 115px;">User List</a></p>
-                        <p><a href="/users/" class="btn btn-default" style="width: 115px;">Your Profile</a></p>
+                        <!--<p><a href="/new_user/" class="btn btn-default" style="width: 115px;">Add User </a></p>-->
+                        <p><a href="/langing/" class="btn btn-default" style="width: 115px;">Landing Page</a></p>
+                        <!--p><a href="/users/" class="btn btn-default" style="width: 115px;">Your Profile</a></p-->
+                        <p><a href="/campaign/" class="btn btn-default" style="width: 115px;">New Campaign</a></p>
+                        <!--<p><a href="/groups/" class="btn btn-default" style="width: 115px;">New Group </a></p>-->
+                        <p><a href="/profiles/" class="btn btn-default" style="width: 115px;">New Mail Profile </a></p>
+
                     </div>
                     <div class="pull-left unstyled col-sm-4 col-md-4">
                        <p>Service Admin</p>
                         <p><a href="#" class="btn btn-default" style="width: 115px;">Go To Reports</a></p>
-                        <p><a href="#" class="btn btn-default" style="width: 115px;">Go Phishing</a></p>
+                        <p><a href="/campaign/" class="btn btn-default" style="width: 115px;">Go Phishing</a></p>
                         <p><a href="#" class="btn btn-default" style="width: 115px;">View Events</a></p>
                     </div>
                     <div>
@@ -274,45 +300,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 col-md-3">
-            <div class="toc">
-                <h3>Report Save Options</h3>
-                <ol>
-                    <li><a href="#">Save Report</a></li>
-                    <li><a href="#">Save Compromised</a></li>
-                    <li><a href="#">Save Safe</a></li>
-                    <li>Save Urls</li>
-                    <br>
-                    <li>File Name</li>
-                    <li>
-                        <form action="/save/" method="post" enctype="multipart/form-data">{% csrf_token %}
-                            <input type="text" class="" name="filename">
-                            <input type="submit" name="submit" value="Save">
-                        </form>
-                    </li>
 
-                </ol>
-            </div>
-            <div class="toc">
-                <h3>Contact Us</h3>
-                <h4>By Phone</h4>
-                <p>+1-123-333-4321</p>
-                <h4>By Email</h4>
-                <p><a href="#">hello@yourcompany.com</a></p>
-                <h4>Address</h4>
-                <address>
-2817 S 49th<br>
-Apt 314<br>
-San Jose, CA 95101
-</address>
-                <div>
-                    <button class="btn btn-default"><i class="fa fa-facebook"></i></button>
-                    <button class="btn btn-default"><i class="fa fa-twitter"></i></button>
-                    <button class="btn btn-default"><i class="fa fa-linkedin"></i></button>
-                </div>
-            </div>
-        </div>
 </div>
+
 </div>
 
 
