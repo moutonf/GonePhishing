@@ -1,16 +1,15 @@
 from django.db import models
 from datetime import datetime
-from django.utils import timezone
 
 # Create your models here.
 class members(models.Model):
     id = models.AutoField(primary_key=True)
-    username=models.CharField(max_length=100,default='')
-    first_name=models.CharField(max_length=100,default='')
-    last_name=models.CharField(max_length=100,default='')
-    email=models.CharField(max_length=100,default='')
-    password=models.CharField(max_length=100,default='')
-    organization=models.CharField(max_length=100,default='')
+    username=models.CharField(max_length=100)
+    first_name=models.CharField(max_length=100)
+    last_name=models.CharField(max_length=100)
+    email=models.CharField(max_length=100)
+    password=models.CharField(max_length=100)
+    organization=models.CharField(max_length=100)
     confirm_id=models.CharField(max_length=16,default='0')
     confirmed =models.CharField(max_length=100,default='0')
     register_date = models.CharField(max_length=100, default=datetime.now())
@@ -57,15 +56,16 @@ class campaign(models.Model):
     campaign_name=models.CharField(max_length=100,default='')
     campaign_desc=models.CharField(max_length=300,default='')
     date_created=models.CharField(max_length=100,default=datetime.now())
-    started=models.IntegerField(default=0)
-    stoped = models.IntegerField( default=0)
     member_id =models.ForeignKey('members',on_delete=models.CASCADE,default=0)
-
+    landing_page_id=models.ForeignKey('landin_page',on_delete=models.CASCADE,default=0)
+    sending_profile_id = models.ForeignKey('sending_profiles', on_delete=models.CASCADE, default=0)
+    started=models.IntegerField(default=0)
+    stopped = models.IntegerField(default=0)
     def __str__(self):
         return self.campaign_name
 
 class groups(models.Model):
-    group_id = models.AutoField(primary_key=True,default='')
+    group_id = models.AutoField(primary_key=True)
     group_name=models.CharField(max_length=100,default='')
     group_description = models.CharField(max_length=100, default='')
     created_date = models.CharField(max_length=100, default=datetime.now())
@@ -109,7 +109,7 @@ class sending_profiles(models.Model):
     profile_email = models.CharField(max_length=100, default='')
     profile_password=models.CharField(max_length=100,default='')
     profile_server=models.CharField(max_length=100,default='')
-    profile_port = models.IntegerField(max_length=10, default=0)
+    profile_port = models.IntegerField(default=0)
     profile_header = models.CharField(max_length=100, default='')
     created_date = models.CharField(max_length=100, default=datetime.now())
     campaign_id= models.ForeignKey('campaign',on_delete=models.CASCADE,default=0)

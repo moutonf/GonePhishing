@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^gophish/$', views.phish_view),  # function to send an attack
     # url(r'^gophish/hooked/(?P<user_id>[0-9]+)/$', views.record_click_view),#this is function that records the view
     url(r'^gophish/hooked/(?P<user_id>[\w\-]+)/$', views.record_click_view),
-    url(r'^gophish/hook/(?P<url_id>[\w\-]+)/$', views.campaign_click_view),
+    url(r'^gophish/hook/(?P<url_id>[\w\-]+)/(?P<page_id>[0-9]+)/$', views.campaign_click_view),
 
 
 
@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^campaign/results/(?P<campaign_id>[0-9]+)/$', views.campaign_results_view),#campaing results
     url(r'^campaign/config/(?P<campaign_id>[0-9]+)/$', views.campaign_config_view),#campaing details--groups and such
     url(r'^campaign/start/(?P<campaign_id>[0-9]+)/$', views.campaign_start_view),#campaing
+    url(r'^set/profile/landing/(?P<campaign_id>[0-9]+)/$', views.set_profile_landing_view),#campaing
     url(r'^campaign/stop/(?P<campaign_id>[0-9]+)/$', views.campaign_stop_view),#campaing
     #url(r'^campaign/details/(?P<campaign_id>[0-9]+)/$', views.campaign_details_view),#campain config
 
@@ -67,7 +68,7 @@ urlpatterns = [
     url(r'^groups/$', views.group_view),
     url(r'^groups/new/$', views.new_group_view), #   new group page
     url(r'^groups/add/$', views.add_group_view),  # logic to add new user profile/done/"
-
+    url(r'^groups/details/(?P<group_id>[0-9]+)/$', views.group_detail_view),
     # user stuff urls-------------------------------------------
     url(r'^user/$', views.users_view),
     url(r'^user/new/$', views.new_user_view),  # to add new user
@@ -99,4 +100,5 @@ urlpatterns = [
     # My profile urls---------------------------------------------------------------------------------------
     url(r'^userprofile/$', views.user_profile),
     url(r'^saveprofile/$', views.save_user_profile),
+    url(r'^test/$', views.test_mail),
 ]

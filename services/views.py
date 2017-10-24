@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib import auth,redirects   #used auth import  for authentication--eish not sure about redirects yet
-from datetime import datetime#import for date and time functions
+from _datetime import datetime#import for date and time functions
 from .models import *
 ## ,victims ,users,groups, emailss,drafts# importing the members modules so can have all the properties
 import random#random number import
@@ -173,20 +173,21 @@ def email_confirm(request,emial_id):
     memeber.confirmed='1'
 
 #dashboard logic--------------------------------------------------------------------------------------------------------
-def attack_email(victim_email,victim_name,url):#lets send an email to a single user
+def attack_email(sending_profile,victim_email,victim_name,url):#lets send an email to a single user
 
     # Create the message
     msg = MIMEText('Hello '+ victim_name+' click on the link below to collect your million bucks\n\n'+url+' To Claim PrizeNow\n before its too late')
     msg['To'] = email.utils.formataddr(('Recipient', victim_email))
-    msg['From'] = email.utils.formataddr(('Fisher Man', 'alexramantswana@gmail.com'))
+    #msg['From'] = email.utils.formataddr(('Fisher Man', 'alexramantswana@gmail.com'))
+    msg['From'] = email.utils.formataddr((sending_profile.profile_header, sending_profile.profile_email))
     msg['Subject'] = 'Welcome to the site '+ victim_name
 
-    server = smtplib.SMTP('smtp.gmail.com:587')
+    server = smtplib.SMTP(sending_profile.profile_server+':'+str(sending_profile.profile_port))
     server.starttls()
-    server.login('srv101.mail@gmail.com', 'Phishyphishy123')
+    server.login(sending_profile.profile_email, sending_profile.profile_password)
     server.set_debuglevel(True)  # show communication with the server
     try:
-        server.sendmail('alexramantswana@gmail.com', [victim_email], msg.as_string())
+        server.sendmail(sending_profile.profile_email, [victim_email], msg.as_string())
     finally:
         server.quit()
 def dash_view(request):#displays the dashboard
@@ -258,7 +259,7 @@ def record_click_view(request,user_id):
     click_data.save()
     return render(request,'services/errorpage.html')
 
-def campaign_click_view(request,url_id):
+def campaign_click_view(request,url_id,page_id):
 
     #change user status to compromised
     status="compromised"
@@ -267,17 +268,20 @@ def campaign_click_view(request,url_id):
     victim.save()
 
     #mem_id = request.session.get('user_id')  # users id stored session in login/auth view
-
     #member_id=members.objects.get(id=int(victim.member_id))
     #ip_add=os.environ["REMOTE_ADDR"]
     ip_add=request.environ['REMOTE_ADDR']
-
     #owner=quick_attack.objects.get(id=victim.id)
-
     click_data=campaign_clicks(ip_add=ip_add,date_of_compromise=todays(),member_id=victim.member_id,user_id=victim)
     click_data.save()
 
-    return render(request,'services/errorpage.html')
+    if page_id==0:#if there was no landing page specified
+        return render(request, 'services/errorpage.html')
+
+    land_page=landin_page.objects.get(page_id=page_id)
+    page=str(land_page.page_upload)
+    return render(request, 'services/' + page)
+
 
 def detail_view(request,click_id):#dispays the detail view when u click details link in dashboard
     victim_details=quick_attack.objects.get(id=click_id)
@@ -376,15 +380,15 @@ def campaign_remove_group_view(request,campaign_id,group_id):
         camp=campaign.objects.get(campaign_id=campaign_id)
         group=groups.objects.get(group_id=group_id)
         group.delete()
-        return  HttpResponseRedirect('/campaign/results/'+campaign_id+'/',)
+        return  HttpResponseRedirect('/campaign/config/'+campaign_id+'/',)
     return HttpResponseRedirect('/index/')
 
 def campaign_config_view(request,campaign_id):#dispays the detail view when u click details link in dashboard
     if request.session.get('login_session', False) == True:
         group_list = groups.objects.filter(campaign_id=campaign_id)
-        profile_model = sending_profiles.objects.filter(member_id=get_member_id(request))
+        profile_model = sending_profiles.objects.filter(member_id=get_member_id(request)).exclude(profile_name="default profile")
         landing_pages=landin_page.objects.filter(member_id=get_member_id(request))
-        return render(request,'services/campaign_config.html',{'group_list':group_list,'campaign_id':campaign_id,'profiles':profile_model})
+        return render(request,'services/campaign_config.html',{'group_list':group_list,'campaign_id':campaign_id,'profiles':profile_model,'pages':landing_pages})
     return HttpResponseRedirect('/index/')
 
 def campign_users_view(request,group_id): #display list of users
@@ -403,9 +407,35 @@ def campign_users_detail_view(request,group_id,user_id):
     click_details=campaign_clicks.objects.filter(user_id=user_id)
 
     return render(request,'services/campaign_details_users.html',{'details':usr_list,'clicks':click_details})
+def set_profile_landing_view(request,campaign_id):
+    if request.session.get('login_session', False) == True:
+        page_name=request.POST.get('page')
+        profile_name = request.POST.get('profile')
+
+        page=landin_page.objects.get(page_name=page_name,member_id=get_member_id(request))
+        profile=sending_profiles.objects.get(profile_name=profile_name,member_id=get_member_id(request))
+
+        mycampaign=campaign.objects.get(campaign_id=campaign_id,member_id=get_member_id(request))
+        mycampaign.landing_page_id=page.page_id
+        mycampaign.sending_profile_id=profile.profile_id
+        mycampaign.save()
+        return  HttpResponseRedirect('/campaign/config/'+str(campaign_id)+'/')
+
+    return HttpResponseRedirect('/index/')
 
 def campaign_start_view(request,campaign_id):
     target_campaign=campaign.objects.get(campaign_id=campaign_id)
+    sending_profile=target_campaign.sending_profile_id
+    landing_page=target_campaign.landing_page_id
+
+    if sending_profile==0 | sending_profile=="":#if there was no sending profile specified
+        profile_details = sending_profiles.objects.get(profile_name="default profile")
+
+    if landing_page==0 | landing_page=="":#if there was no landing page specified
+        landing_page=0
+
+    profile_details=sending_profiles.objects.get(profile_id=sending_profiles)
+
     target_group=groups.objects.filter(campaign_id=target_campaign)
     target_users=[]
 
@@ -419,7 +449,7 @@ def campaign_start_view(request,campaign_id):
                 mychars = mychars + random.choice(string.ascii_letters)
             #print('mychars :'+ mychars)
 
-            long_url = 'http://127.0.0.1:8000/gophish/hook/' + mychars + '/'  # url to be inside the email
+            long_url = 'http://127.0.0.1:8000/gophish/hook/' + mychars + '/'+landing_page  # url to be inside the email
             bitly_url = url_shortner(long_url)
             user.long_url=long_url
             user.short_url=bitly_url
@@ -430,7 +460,9 @@ def campaign_start_view(request,campaign_id):
             print(user.long_url)
             print(user.short_url)'''
             user.save()
-            attack_email(user.useremail,user.fullname, user.short_url)
+            attack_email(profile_details,user.useremail,user.fullname, user.short_url)
+    target_campaign.started=1
+    target_campaign.save()
     return HttpResponseRedirect('/campaign/results/'+str(campaign_id)+'/')
 
 
@@ -450,7 +482,7 @@ def import_group_view(request,campaign_id):
 
 def group_import_view(request,campaign_id,group_id):
     if request.session.get('login_session', False) == True:
-        new_group=groups()
+        new_group=groups()#importing group
         import_group=groups.objects.get(group_id=group_id)
 
         #campaign_id=request.session.get['campaign_id']
@@ -462,6 +494,18 @@ def group_import_view(request,campaign_id,group_id):
         new_group.created_date=todays()
 
         new_group.save()
+
+        group_users=userss.objects.filter(group_id=import_group)
+        #new_group_id=groups.objects.get(group_id=new_group.group_name,campaign_id=campaign_id )
+        new_user=userss()
+        for user in group_users:
+            new_user.fullname=user.fullname
+            new_user.useremail=user.useremail
+            new_user.sent_date=todays()
+            new_user.member_id=import_group.member_id
+            #new_user.group_id=new_group_id.group_id
+            new_user.group_id=new_group
+            new_user.save()
         return HttpResponseRedirect('/campaign/config/'+str(campaign_id)+'/')
     else: return HttpResponseRedirect('/index/')
 
@@ -469,9 +513,8 @@ def import_user_view(request,campaign_id):
     if request.session.get('login_session', False) == True:
         group_model=groups.objects.filter(member_id=get_member_id(request))
         campaign_list=campaign.objects.filter(member_id=get_member_id(request))
-
-
         return render(request,'services/groups.html',{"group_model":group_model,'campaign_list':campaign_list})
+
     else: return HttpResponseRedirect('/index/')
 
 #user group logic-------------------------------------------------------------------------------------------------------------
@@ -511,13 +554,13 @@ def add_group_view(request):
         #new_group=groups()
 
         if campaign=='':
-            new_group=groups(group_name=group_name,group_description=group_desc,member_id=member_id)
+            new_group=groups(group_name=group_name,group_description=group_desc,created_date=todays(),member_id=member_id)
+            new_group.save()
+            return HttpResponseRedirect('/groups/')
         else:
-            new_group = groups(group_name=group_name, group_description=group_desc,campaign_id=camp, member_id=member_id)
-
-        new_group.save()
-
-        return HttpResponseRedirect('campaign/config/'+str(camp.campaign_id)+'/')
+            new_group = groups(group_name=group_name, group_description=group_desc,created_date=todays(),campaign_id=camp, member_id=member_id)
+            new_group.save()
+            return HttpResponseRedirect('/campaign/config/'+str(camp.campaign_id)+'/')
 
     else: return HttpResponseRedirect('/index/')
 
@@ -530,7 +573,7 @@ def group_remove_view(request,group_id):
     return HttpResponseRedirect('/index/')
 def group_detail_view(request,group_id):#dispays the detail view when u click details link in dashboard
     if request.session.get('login_session', False) == True:
-        print()
+        return HttpResponseRedirect('/groups/')
     return HttpResponseRedirect('/index/')
 
 
@@ -761,3 +804,11 @@ def save_user_profile(request):
 
 
     return HttpResponseRedirect('/index/')
+
+def test_mail(request):
+    profile_details = sending_profiles.objects.get(profile_name='profile one')
+
+    pname=profile_details.profile_name
+    print(pname)
+    attack_email(profile_details,'ichybal@gmail.com','ichy','this is url')
+    print('done')
