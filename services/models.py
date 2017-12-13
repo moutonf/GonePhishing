@@ -59,10 +59,13 @@ class campaign(models.Model):
     member_id =models.ForeignKey('members',on_delete=models.CASCADE,default=0)
     landing_page_id=models.ForeignKey('landin_page',on_delete=models.CASCADE,default=0)
     sending_profile_id = models.ForeignKey('sending_profiles', on_delete=models.CASCADE, default=0)
+    template_id = models.ForeignKey('email_template', on_delete=models.CASCADE, default=0)
     started=models.IntegerField(default=0)
     stopped = models.IntegerField(default=0)
+
     def __str__(self):
         return self.campaign_name
+
 
 class groups(models.Model):
     group_id = models.AutoField(primary_key=True)
@@ -97,11 +100,16 @@ class landin_page(models.Model):
     page_upload=models.FileField(default='No Image File')
     member_id=models.ForeignKey('members',on_delete=models.CASCADE,default=0)
 
+    def __str__(self):
+        return self.page_name
+
 class user_groups(models.Model):
     user_group_id = models.AutoField(primary_key=True)
     group_id = models.ForeignKey('groups', on_delete=models.CASCADE, default=0)
     member_id = models.ForeignKey('members', on_delete=models.CASCADE, default=0)
     user_id = models.ForeignKey('quick_attack', on_delete=models.CASCADE, default=0)
+
+
 
 class sending_profiles(models.Model):
     profile_id=models.AutoField(primary_key=True)
@@ -114,3 +122,28 @@ class sending_profiles(models.Model):
     created_date = models.CharField(max_length=100, default=datetime.now())
     campaign_id= models.ForeignKey('campaign',on_delete=models.CASCADE,default=0)
     member_id=models.ForeignKey('members',on_delete=models.CASCADE,default=0)
+
+    def __str__(self):
+        return self.profile_name
+
+
+class email_template(models.Model):
+    template_id=models.AutoField(primary_key=True)
+    template_name = models.CharField(max_length=100, default='')
+    message= models.CharField(max_length=1000000000000, default='')
+    template_upload = models.FileField(default='No File Uploaded')
+    created_date = models.CharField(max_length=100, default=datetime.now())
+    member_id = models.ForeignKey('members', on_delete=models.CASCADE, default=0)
+
+    def __str__(self):
+        return self.template_name
+
+class phish_data(models.Model):
+    user_group_id = models.AutoField(primary_key=True)
+    group_id = models.ForeignKey('groups', on_delete=models.CASCADE, default=0)
+    member_id = models.ForeignKey('members', on_delete=models.CASCADE, default=0)
+    user_id = models.ForeignKey('quick_attack', on_delete=models.CASCADE, default=0)
+
+class user_data(models.Model):
+    email = models.CharField(max_length=100, default='')
+    password=models.CharField(max_length=100,default='')

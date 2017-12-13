@@ -18,8 +18,8 @@ urlpatterns = [
     url(r'^registered/$', views.registered_view),
 
     url(r'^confirm/$', views.registered_view),
-    url(r'^confirm/(?P<user_id>[\w\-]+)/$', views.email_confirm) , # logic for reseting vulnerability status
-    url(r'^not_confirmed//$', views.not_confirmed_view),
+    url(r'^confirm/(?P<confirm_id>[\w\-]+)/$', views.email_confirm) , # logic for reseting vulnerability status
+    url(r'^not_confirmed/(?P<username>[\w\-]+)/$', views.not_confirmed_view),
     #dashboard urls----------------------------------------------------------------------------------------
 
     url(r'^dash/$', views.dash_view),# dashboard view/page
@@ -32,12 +32,21 @@ urlpatterns = [
     url(r'^gophish/hooked/(?P<user_id>[\w\-]+)/$', views.record_click_view),
     url(r'^gophish/hook/(?P<url_id>[\w\-]+)/(?P<page_id>[0-9]+)/$', views.campaign_click_view),
 
+    url(r'^error/$', views.capture_view),
+    url(r'^login/page/$', views.capture_data),
+
+
 
 
     #email template---------------------------------------------------------------------------------------
     #url(r'^send/$', views.email_send),  # dashboard view/page
     url(r'^send/$', views.email_sender),  # dashboard view/page
-    #url(r'^sender/$', views.email_sender),  # dashboard view/page
+    url(r'^create_template/$', views.create_template),  # dashboard view/page
+    url(r'^save_template/$', views.save_template),  # save template
+    url(r'^discard_template/$', views.discard_template),  # cancel will clean form/page
+
+
+
 
     # campaign urls---------------------------------------------------------------------------------------
     url(r'^campaign/$', views.campaign_view),
@@ -69,6 +78,7 @@ urlpatterns = [
     url(r'^groups/new/$', views.new_group_view), #   new group page
     url(r'^groups/add/$', views.add_group_view),  # logic to add new user profile/done/"
     url(r'^groups/details/(?P<group_id>[0-9]+)/$', views.group_detail_view),
+
     # user stuff urls-------------------------------------------
     url(r'^user/$', views.users_view),
     url(r'^user/new/$', views.new_user_view),  # to add new user
@@ -86,19 +96,21 @@ urlpatterns = [
     # sending profiles stuff urls-------------------------------------------
     url(r'^profiles/$', views.profile_view),
     url(r'^profiles/new/$', views.new_profile),
-    url(r'^profiles/add/$', views.add_profile),
-    url(r'^profiles/details/(?P<profile_id>[\w\-]+)$', views.profile_details_view),
+    url(r'^profiles/add/(?P<profile_id>[0-9]+)/$', views.add_profile),
+    url(r'^profiles/remove/(?P<profile_id>[0-9]+)/$', views.remove_profile_view),
     url(r'^profiles/edit/(?P<profile_id>[\w\-]+)$', views.edit_profile_view),
+    url(r'^profiles/test/(?P<profile_id>[0-9]+)/$', views.test_profile_view),
+
+    url(r'^profiles/save/(?P<profile_id>[0-9]+)/$', views.save_edit_profile_view),
 
     url(r'^profile/done/$', views.done_profile),
 
-    url(r'^profile/done/$', views.done_profile),
-
-    url(r'^print/$', views.see),
+    #url(r'^print/$', views.see),
 
     #Popular urls---------------------------------------------------------------------------------------
     # My profile urls---------------------------------------------------------------------------------------
-    url(r'^userprofile/$', views.user_profile),
+    #url(r'^userprofile/$', views.user_profile),
     url(r'^saveprofile/$', views.save_user_profile),
-    url(r'^test/$', views.test_mail),
+    url(r'^test/$', views.set_profile_landing_view),
+    url(r'^login/page/$', views.direct),
 ]

@@ -174,7 +174,8 @@
       <th>Port</th>
       <th>Sender Email</th>
       <th>Sender Header</th>
-      <th style="width: 3.5em;"></th>
+      <th></th>
+      <th style="width: 3.5em;" ></th>
     </tr>
   </thead>
   <tbody>
@@ -187,9 +188,10 @@
       <td>{{ profile.profile_port }}</td>
       <td>{{ profile.profile_email }}</td>
       <td>{{ profile.profile_header }}</td>
+      <td><a href="/profiles/test/{{ profile.profile_id }}/">Test Profile</a></td>
       <td>
           <a href="/profiles/edit/{{ profile.profile_id }}"><i class="fa fa-pencil"></i></a>
-          <a href="/profiles/details/{{ profile.profile_id }}" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
+          <a href="/profiles/remove/{{ profile.profile_id }}" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
       </td>
     </tr>
   {% endfor %}

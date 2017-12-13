@@ -162,7 +162,8 @@
     <br>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane active in" id="home">
-      <form action="/profiles/add/" method="post" enctype="multipart/form-data" id="tab">{% csrf_token %}
+      <form action="/profiles/add/{{ profiles.profile_id }}/" method="post" enctype="multipart/form-data" id="tab">
+          {% csrf_token %}
         <div class="form-group">
         <label>Profile Name</label>
         <input type="text" name="profile_name" value="{{ profiles.profile_name }}" class="form-control">
