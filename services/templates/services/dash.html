@@ -197,14 +197,14 @@
             </table>
                 </div>
             </div>
-
+        <a href="/google/">Open</a>
             <div class="panel panel-default">
                 <p class="panel-heading">Quick Attack</p>
                 <div class="panel-body">
                     <p>To send a Phishing attack to a user without having to add the user to your Victim List   </p>
                     <form action="/gophish/" enctype="multipart/form-data" method="post">{% csrf_token %}
                         <input type="email" name="email" placeholder="Your Target Email" id="email">
-                        <select>
+                        <select name="sending_profile">
                             <option>Sending Profile</option>
                             {% for profile in profiles %}
                             <option value="{{profile.profile_name}}">{{profile.profile_name}}</option>

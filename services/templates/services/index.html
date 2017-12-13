@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-{%  load staticfiles  %}
 <html lang="en">
+{%  load staticfiles  %}
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,15 +35,11 @@
         <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#feature">Features</a></li>
-          <li><a href="#organisations">Organisations</a></li>
-          <li><a href="#courses">Trainings</a></li>
-          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#organisations">About GonePhishing</a></li>
+          <li><a href="#courses">Contact Us</a></li>              
+          <!--<li><a href="#pricing">Pricing</a></li-->
           <li><a href="#" data-target="#login" data-toggle="modal">Sign in</a></li>
           <li class="btn-trial"><a href="#footer">Free Trail</a></li>
-          {% if errormsg %}
-          <li class="btn-trial"><a href="#footer">{{errormsg}}</a></li>
-          {% endif %}
-
         </ul>
         </div>
       </div>
@@ -98,42 +94,25 @@
       </div>
     </div>
     <!--/ Modal box-->
-    <!--Banner-->
-    <div class="banner">
-      <div class="bg-color">
-        <div class="container">
-          <div class="row">
-            <div class="banner-text text-center">
-              <div class="text-border">
-                <h2 class="text-dec">Vulnerable To Phishing?</h2>
-              </div>
-              <div class="intro-para text-center quote">
-                <p class="big-text">Learning Today . . . Leading Tomorrow.</p>
-                <p class="small-text">Anti-Phishing And Security Awareness<br></p>
-                <a href="/register/" class="btn">GET YOUR MEMBERSHIP TODAY</a>
-              </div>
-              <a href="#feature" class="mouse-hover"><div class="mouse"></div></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <
     <!--/ Banner-->
-    <!--Feature-->
+	
+    Feature
     <section id ="feature" class="section-padding">
       <div class="container">
         <div class="row">
           <div class="header-section text-center">
-            <h2>Features</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nesciunt vitae,<br> maiores, magni dolorum aliquam.</p>
+            <h2>Features of the CSIR GonePhishing Tool</h2>
+            <p><h2>All-in-One Reporting Dashboard</h2>
+              From one screen, our tool gives you access to detailed data about your most recent phishing campaigns and the activities of your employee </p>
             <hr class="bottom-line">
           </div>
           <div class="feature-info">
             <div class="fea">
               <div class="col-md-4">
                 <div class="heading pull-right">
-                  <h4>Latest Technologies</h4>
-                  <p>Donec et lectus bibendum dolor dictum auctor in ac erat. Vestibulum egestas sollicitudin metus non urna in eros tincidunt convallis id id nisi in interdum.</p>
+                  <h4>Phishing Campaigns </h4>
+                  <p> With your targets selected and uploaded into the tool (all you need is an email address), it�s time to build your campaign.</p>
                 </div>
                 <div class="fea-img pull-left">
                   <i class="fa fa-css3"></i>
@@ -143,8 +122,10 @@
             <div class="fea">
               <div class="col-md-4">
                 <div class="heading pull-right">
-                  <h4>Toons Background</h4>
-                  <p>Donec et lectus bibendum dolor dictum auctor in ac erat. Vestibulum egestas sollicitudin metus non urna in eros tincidunt convallis id id nisi in interdum.</p>
+                  <h4>Phishing Email Templates</h4>
+				  Our tool gives you the power to recreate phishing messages you�ve seen in the wild by using our intuitive template design interface.
+                  <p> 
+</p>
                 </div>
                 <div class="fea-img pull-left">
                   <i class="fa fa-drupal"></i>
@@ -154,8 +135,8 @@
             <div class="fea">
               <div class="col-md-4">
                 <div class="heading pull-right">
-                  <h4>Award Winning Design</h4>
-                  <p>Donec et lectus bibendum dolor dictum auctor in ac erat. Vestibulum egestas sollicitudin metus non urna in eros tincidunt convallis id id nisi in interdum.</p>
+                  <h4>Reporting</h4>
+                  <p>Reporting is an important part of any phishing campaign.The dashboard gives a quick overview showing the results for a particular campaign </p>
                 </div>
                 <div class="fea-img pull-left">
                   <i class="fa fa-trophy"></i>
@@ -166,45 +147,148 @@
         </div>
       </div>
     </section>
-    <!--/ feature-->
+    -->
     <!--Organisations-->
-    <section id ="organisations" class="section-padding">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">         
-              <div class="orga-stru">
-                <h3>65%</h3>
-                <p>Say NO!!</p>
-                <i class="fa fa-male"></i>
-              </div>  
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">         
-              <div class="orga-stru">
-                <h3>20%</h3>
-                <p>Says Yes!!</p>
-                <i class="fa fa-male"></i>
-              </div>  
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">         
-              <div class="orga-stru">
-                <h3>15%</h3>
-                <p>Can't Say!!</p>
-                <i class="fa fa-male"></i>
-              </div>  
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="detail-info">
-              <hgroup>
-                <h3 class="det-txt"> Is inclusive quality education affordable?</h3>
-                <h4 class="sm-txt">(Revised and Updated for 2016)</h4>
-              </hgroup>
-              <p class="det-p">Donec et lectus bibendum dolor dictum auctor in ac erat. Vestibulum egestas sollicitudin metus non urna in eros tincidunt convallis id id nisi in interdum.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing:border-box}
+body {font-family: Verdana,sans-serif;margin:0}
+.mySlides {display:none}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+</style>
+</head>
+<body>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<h2 class="w3-center">Phishing Email </h2>
+
+<div class="w3-cont w3-display-containernte">
+  <img class="mySlides" src="{%  static 'services/img/image1.png'  %}" style="width:50%;margin-left:auto;margin-right:auto">
+  <img class="mySlides" src="{%  static 'services/img/mail.png'  %}" style="width:50%;margin-left:auto;margin-right:auto">
+  <img class="mySlides" src="{%  static 'services/img/fnb.jpg'  %}"   style="width:50%;margin-left:auto;margin-right:auto">
+  <img class="mySlides" src="{%  static 'services/img/image2.png'  %}"  style="width:50%;margin-left:auto;margin-right:auto">
+
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
+
+<script>
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}
+</script>
+
+
     </section>
     <!--/ Organisations-->
     <!--Cta-->
@@ -213,7 +297,7 @@
         <div class="row">
             <div class="col-lg-12">
               <h2 class="text-center">Subscribe Now</h2>
-              <p class="cta-2-txt">Sign up for our free weekly software design courses, we’ll send them right to your inbox.</p>
+              <p class="cta-2-txt">Sign up for our free software trail ,we will send them right to your inbox.</p>
              <div class="cta-2-form text-center">
               <form action="#" method="post" id="workshop-newsletter-form">
                     <input name="" placeholder="Enter Your Email Address" type="email">
@@ -230,17 +314,17 @@
       <div class="container">
         <div class="row">
           <div class="header-section text-center">
-            <h2>Upcoming Workshop</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nesciunt vitae,<br> maiores, magni dolorum aliquam.</p>
+            <h2>Automated Phishing Tool </h2>
+            <p>The CSIR Automated Phishing Tool online web services that allow a user (usually a manager) to add a list of employee addresses on to the site. Once addresses have been added, the system will send phishing email to the list of recipients. The email will include a URL that will have an encrypted (md5) key embedded in it. This key is what will be used to identify the different users (phishing victims). </p>
             <hr class="bottom-line">
           </div>
           <div class="col-md-4 col-sm-6">
             <div class="service-box text-center">
               <div class="icon-box">
-                <i class="fa fa-html5 color-green"></i>
+                <i class="fa fa-css3 color-green"></i>
               </div>
               <div class="icon-text">
-                <h4 class="ser-text">Mentor HTML5 Workshop</h4>
+                <h4 class="ser-text">Registration portal for users.The dashboard gives a quick overview.</h4>
               </div>
             </div>
           </div>
@@ -250,7 +334,7 @@
                 <i class="fa fa-css3 color-green"></i>
               </div>
               <div class="icon-text">
-                <h4 class="ser-text">Mentor CSS3 Workshop</h4>
+                <h4 class="ser-text">User friendly interface that complies with HCI Standards.</h4>
               </div>
             </div>
           </div>
@@ -260,7 +344,7 @@
                 <i class="fa fa-joomla color-green"></i>
               </div>
               <div class="icon-text">
-                <h4 class="ser-text">Mentor Joomla Workshop</h4>
+                <h4 class="ser-text">Statistical analysis of data in the database presented in graphs on the webpage </h4>
               </div>
             </div>
           </div>
@@ -327,109 +411,18 @@
     </section>-->
     <!--/ Faculity member-->
     <!--Testimonial-->
-    <section id="testimonial" class="section-padding">
-      <div class="container">
-        <div class="row">
-          <div class="header-section text-center">
-            <h2 class="white">See What Our Customer Are Saying?</h2>
-            <p class="white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nesciunt vitae,<br> maiores, magni dolorum aliquam.</p>
-            <hr class="bottom-line bg-white">
-          </div>
-          <div class="col-md-6 col-sm-6">
-            <div class="text-comment">
-              <p class="text-par">"Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, nec sagittis sem"</p>
-              <p class="text-name">Abraham Doe - Creative Dırector</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-6">
-            <div class="text-comment">
-              <p class="text-par">"Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, nec sagittis sem"</p>
-              <p class="text-name">Abraham Doe - Creative Dırector</p>
-            </div>
-          </div>
-        </div>
+    <!--<section id="testimonial" class="section-padding">
+     <img src="img/image2.png" class="img-responsive" align ="center" > 
       </div>
     </section>
     <!--/ Testimonial-->
     <!--Courses-->
     <section id ="courses" class="section-padding">
-      <div class="container">
-        <div class="row">
-          <div class="header-section text-center">
-            <h2>Courses</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nesciunt vitae,<br> maiores, magni dolorum aliquam.</p>
-            <hr class="bottom-line">
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="{%  static 'services/'  %}img/course01.jpg" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="{%  static 'services/img/course02.jpg'  %}" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="{%  static 'services/img/course03.jpg'  %}" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="{%  static 'services/img/course04.jpg'  %}" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="{%  static 'services/img/course05.jpg'  %}" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="{%  static 'services/img/course06.jpg'  %}" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-        </div>
-      </div>
+      
     </section>
     <!--/ Courses-->
     <!--Pricing-->
-    <section id ="pricing" class="section-padding">
+    <!--<section id ="pricing" class="section-padding">
       <div class="container">
         <div class="row">
           <div class="header-section text-center">
@@ -440,7 +433,7 @@
           <div class="col-md-4 col-sm-4">
             <div class="price-table">
               <!-- Plan  -->
-              <div class="pricing-head">
+              <!--<div class="pricing-head">
                 <h4>Personal</h4>
                 <span class="fa fa-rsa curency"></span> <span class="amount">FREE!</span> 
 				<h4>Try out the CSIR APM for free with our personal level membership<hr><br>Learners<hr><br>10<hr><br>
@@ -449,15 +442,15 @@
               </div>
           
               <!-- Plean Detail -->
-              <div class="price-in mart-15">
-                <a href="#" class="btn btn-bg green btn-block">PURCHACE</a> 
+             <!-- <div class="price-in mart-15">
+                <a href="#" class="btn btn-bg green btn-block">Purchase</a> 
               </div>
             </div>
           </div>
           <div class="col-md-4 col-sm-4">
             <div class="price-table">
               <!-- Plan  -->
-              <div class="pricing-head">
+              <!--<div class="pricing-head">
                 <h4>Personal</h4>
                 <span class="fa fa-rsa curency"></span> <span class="amount">FREE!</span> 
 				<h4>Try out the CSIR APM for free with our personal level membership<hr><br>Learners<hr><br>10<hr><br>
@@ -466,15 +459,15 @@
               </div>
           
               <!-- Plean Detail -->
-              <div class="price-in mart-15">
-                <a href="#" class="btn btn-bg green btn-block">PURCHACE</a> 
+              <!--<div class="price-in mart-15">
+                <a href="#" class="btn btn-bg green btn-block">Purchase</a> 
               </div>
             </div>
           </div>
           <div class="col-md-4 col-sm-4">
             <div class="price-table">
               <!-- Plan  -->
-              <div class="pricing-head">
+             <!-- <div class="pricing-head">
                 <h4>Standard</h4>
                 <span class="fa fa-rsa curency"></span> <span class="amount">R1500.00<br>R500pm</span> 
 				<h4>Try out the CSIR APM for free with our personal level membership<hr><br>Learners<hr><br>10<hr><br>
@@ -483,8 +476,8 @@
               </div>
           
               <!-- Plean Detail -->
-              <div class="price-in mart-15">
-                <a href="#" class="btn btn-bg green btn-block">PURCHACE</a> 
+             <!-- <div class="price-in mart-15">
+                <a href="#" class="btn btn-bg green btn-block">Purchase</a> 
               </div>
             </div>
           </div>
@@ -502,7 +495,7 @@
         <div class="row">
           <div class="header-section text-center">
             <h2>Contact Us</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nesciunt vitae,<br> maiores, magni dolorum aliquam.</p>
+            <p></p>
             <hr class="bottom-line">
           </div>
           <div id="sendmessage">Your message has been sent. Thank you!</div>
@@ -571,7 +564,7 @@
         <li><a href="#link"><i class="fa fa-dribbble fa-fw"></i></a></li>
         <li><a href="#link"><i class="fa fa-linkedin fa-fw"></i></a></li>
       </ul>
-        ©2016 Mentor Theme. All rights reserved
+        �2017 CSIR . All rights reserved
         <div class="credits">
             <!-- 
                 All the links in the footer should remain intact. 
@@ -579,7 +572,7 @@
                 Licensing information: https://bootstrapmade.com/license/
                 Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Mentor
             -->
-            Designed by <a href="https://bootstrapmade.com/">Free Bootstrap Themes</a>
+            Designed by CSIR DPSS CCIW <a href="/"></a>
         </div>
       </div>
     </footer>

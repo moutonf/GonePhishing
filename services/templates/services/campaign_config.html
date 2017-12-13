@@ -156,19 +156,31 @@
         <button name="importgroup" class="btn btn-default"><a href="/campaign/group/import/{{campaign_id}}"-->Import Group</a></button>
         <br>
         <br>
-        <select>
+    <form method="post" action="/set/profile/landing/{{campaign_id}}/">{% csrf_token %}
+        <select id="sel1" name="page" class="form-control">
             <option>Select Landing Page</option>
-        </select>
+            {% for page in pages %}
+                <option value="{{page.page_name}}">{{page.page_name}}</option>
+            {% endfor %}
+        </select><br>
 
-        <select>
+        <select name="profile" id="sel2" class="form-control">
             <option>Sending Profile</option>
             {% for profile in profiles %}
             <option value="{{profile.profile_name}}">{{profile.profile_name}}</option>
             {% endfor %}
-        </select>
-    <!--button name="import" class="btn btn-default"> Import Group</button>
-        <!--button-- name="export" class="btn btn-default"><i class="fa fa-plus"></i><a href="/campaign/details/{{campaign.campaign_id}}/"> Export Group</a></button-->
+        </select><br>
 
+        <select name="template" id="sel3" class="form-control">
+            <option>Email Templates</option>
+            {% for template in templates %}
+            <option value="{{template.template_name}}">{{template.template_name}}</option>
+            {% endfor %}
+        </select><br>
+
+    <button name="set_options" class="btn btn-primary"> Set Page/profile</button>
+    <button type="submit" name="export" class="btn btn-default"><i class="fa fa-plus"></i><a href="/test/"> Test me</a></button>
+    </form>
     <!--form action="/btngroup/" method="post" enctype="multipart/form-data">{% csrf_token %}
         <button name="import" class="btn btn-default">Import</button>
         <button name="export" class="btn btn-default">Export</button>

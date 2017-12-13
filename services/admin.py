@@ -10,4 +10,6 @@ admin.site.register(landin_page)
 admin.site.register(userss)
 admin.site.register(campaign_clicks)
 admin.site.register(sending_profiles)
-#admin.site.register()
+admin.site.register(email_template)
+admin.site.register(user_data)
+

